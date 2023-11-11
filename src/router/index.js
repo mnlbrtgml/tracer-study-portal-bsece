@@ -29,6 +29,11 @@ const router = createRouter({
       component: AboutView
     },
     {
+      path: "/form",
+      name: "form",
+      component: () => import("@/views/form/IndexView.vue")
+    },
+    {
       path: "/profile",
       name: "profile",
       component: () => import("@/views/profile/IndexView.vue")
