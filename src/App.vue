@@ -1,5 +1,5 @@
 <template>
-  <main class="bg-gray-100 h-[100dvh] grid place-items-center">
+  <main class="bg-gray-100 h-[100dvh] p-4 grid place-items-center">
     <div class="text-center grid place-items-center">
       <div class="w-52">
         <a href="https://storyset.com/online" class="sr-only">Online illustrations by Storyset</a>
