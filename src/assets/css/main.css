@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :is(html, body) {
+    @apply bg-gray-100 text-gray-700 antialiased;
+  }
+}
