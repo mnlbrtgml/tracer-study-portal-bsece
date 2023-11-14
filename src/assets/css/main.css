@@ -6,4 +6,12 @@
   :is(html, body) {
     @apply bg-gray-100 text-gray-700 antialiased;
   }
+
+  :is(html) {
+    @apply scroll-smooth;
+  }
+
+  :is(section) {
+    @apply max-w-screen-2xl mx-auto;
+  }
 }

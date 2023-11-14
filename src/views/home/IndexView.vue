@@ -1,3 +1,9 @@
 <template>
-  <h1 class="text-3xl font-bold underline">Hello home page!</h1>
+  <HeroSection />
+  <OverviewSection />
 </template>
+
+<script setup>
+import HeroSection from "@/views/home/partials/HeroSection.vue";
+import OverviewSection from "@/views/home/partials/OverviewSection.vue";
+</script>
