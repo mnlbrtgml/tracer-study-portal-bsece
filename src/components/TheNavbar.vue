@@ -25,7 +25,7 @@
   </header>
 
   <aside
-    :class="`bg-gray-900/80 h-[100dvh] fixed inset-0 z-50 transition-transform lg:hidden ${sidebarClass}`"
+    :class="`bg-gray-900/80 h-[100vh] fixed inset-0 z-50 transition-transform lg:hidden ${sidebarClass}`"
   >
     <nav class="bg-gray-100 text-gray-700 w-3/4 max-w-xs h-full p-4 flex flex-col gap-4">
       <IconedButton @click="toggleSidebar" class="self-end">

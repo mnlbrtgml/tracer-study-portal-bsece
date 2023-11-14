@@ -1,6 +1,6 @@
 <template>
   <section
-    class="h-[calc(100dvh-3.75rem)] bg-[url('@/assets/images/UrsmFacade.webp')] bg-center bg-no-repeat bg-cover relative z-30 after:h-full after:content-[''] after:bg-gradient-to-br after:from-gray-900/70 after:via-gray-800/60 after:to-gray-700/50 after:absolute after:inset-0"
+    class="h-[calc(100vh-3.75rem)] bg-[url('@/assets/images/UrsmFacade.webp')] bg-center bg-no-repeat bg-cover relative z-30 after:h-full after:content-[''] after:bg-gradient-to-br after:from-gray-900/70 after:via-gray-800/60 after:to-gray-700/50 after:absolute after:inset-0"
   >
     <div class="grid place-items-center absolute inset-0 z-50">
       <div class="text-gray-100 p-4 text-center">
