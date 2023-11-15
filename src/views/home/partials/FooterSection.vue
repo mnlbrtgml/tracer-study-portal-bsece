@@ -1,8 +1,8 @@
 <template>
   <section class="bg-blue-600 text-gray-100 p-2">
-    <footer class="max-w-screen-xl mx-auto p-2 space-y-4">
-      <div class="space-y-4 md:w-max md:mx-auto md:flex md:items-center md:gap-8">
-        <div class="space-y-4">
+    <footer class="max-w-screen-xl mx-auto p-2 space-y-4 lg:space-y-8">
+      <div class="space-y-4 md:w-max md:mx-auto md:flex md:items-center md:gap-12 lg:items-start">
+        <div class="space-y-4 lg:flex lg:items-start lg:gap-12">
           <div>
             <img src="@/assets/images/UrsLogo.png" alt="" class="w-10 mx-auto" />
 

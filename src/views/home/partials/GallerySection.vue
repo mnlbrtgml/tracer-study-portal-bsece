@@ -1,0 +1,205 @@
+<template>
+  <section class="bg-gray-50 px-4 py-8 space-y-12">
+    <div class="max-w-screen-xl mx-auto flex flex-col gap-8 md:flex-row">
+      <div class="grid grid-cols-4 grid-rows-3 gap-2 md:w-1/2">
+        <img
+          img
+          src="@/assets/images/ece_week/ece_week (1).jpg"
+          alt=""
+          class="w-full h-[10.5rem] rounded-lg object-cover object-center col-span-2 row-span-2"
+        />
+        <img
+          img
+          src="@/assets/images/ece_week/ece_week (2).jpg"
+          alt=""
+          class="w-full h-[5rem] rounded-lg object-cover object-center col-span-2 row-span-1"
+        />
+        <img
+          img
+          src="@/assets/images/ece_week/ece_week (3).jpg"
+          alt=""
+          class="w-full h-[10.5rem] rounded-lg object-cover object-center col-span-2 row-span-2"
+        />
+        <img
+          img
+          src="@/assets/images/ece_week/ece_week (4).jpg"
+          alt=""
+          class="w-full h-[5rem] rounded-lg object-cover object-center"
+        />
+        <img
+          img
+          src="@/assets/images/ece_week/ece_week (5).jpg"
+          alt=""
+          class="w-full h-[5rem] rounded-lg object-cover object-center"
+        />
+      </div>
+
+      <div class="md:w-1/2">
+        <h4 class="text-blue-600 text-xl font-semibold uppercase">ECE Week</h4>
+
+        <p class="mt-2 mb-8 md:line-clamp-6">
+          BSECE Week is a week-long celebration of the Bachelor of Science in Electronics
+          Engineering (BSECE) program. It is a time for BSECE students, faculty, and alumni to come
+          together to celebrate their achievements and the future of the program.
+        </p>
+
+        <PrimaryButton class="ml-auto flex items-center gap-4 md:ml-0">
+          <span>View more about ECE Week</span> <ArrowRightIcon />
+        </PrimaryButton>
+      </div>
+    </div>
+
+    <div class="max-w-screen-xl mx-auto flex flex-col gap-8 md:flex-row-reverse">
+      <div class="grid grid-cols-4 grid-rows-3 gap-2 md:w-1/2">
+        <img
+          img
+          src="@/assets/images/quiz_show/quiz_show (1).jpg"
+          alt=""
+          class="w-full h-[10.5rem] rounded-lg object-cover object-center col-span-2 row-span-2"
+        />
+        <img
+          img
+          src="@/assets/images/quiz_show/quiz_show (2).jpg"
+          alt=""
+          class="w-full h-[5rem] rounded-lg object-cover object-center col-span-2 row-span-1"
+        />
+        <img
+          img
+          src="@/assets/images/quiz_show/quiz_show (3).jpg"
+          alt=""
+          class="w-full h-[10.5rem] rounded-lg object-cover object-center col-span-2 row-span-2"
+        />
+        <img
+          img
+          src="@/assets/images/quiz_show/quiz_show (4).jpg"
+          alt=""
+          class="w-full h-[5rem] rounded-lg object-cover object-center"
+        />
+        <img
+          img
+          src="@/assets/images/quiz_show/quiz_show (5).jpg"
+          alt=""
+          class="w-full h-[5rem] rounded-lg object-cover object-center"
+        />
+      </div>
+
+      <div class="md:w-1/2">
+        <h4 class="text-blue-600 text-xl font-semibold uppercase">Quiz Show</h4>
+
+        <p class="mt-2 mb-8 md:line-clamp-6">
+          The BSECE Quiz Show was a great opportunity for students to learn more about electronics
+          engineering and to network with other students and professionals in the field. It was also
+          a lot of fun, and everyone had a great time.
+        </p>
+
+        <PrimaryButton class="ml-auto flex items-center gap-4 md:ml-0">
+          <span>View more about quiz show</span> <ArrowRightIcon />
+        </PrimaryButton>
+      </div>
+    </div>
+
+    <div class="max-w-screen-xl mx-auto flex flex-col gap-8 md:flex-row">
+      <div class="grid grid-cols-4 grid-rows-3 gap-2 md:w-1/2">
+        <img
+          img
+          src="@/assets/images/ga/ga (1).jpg"
+          alt=""
+          class="w-full h-[10.5rem] rounded-lg object-cover object-center col-span-2 row-span-2"
+        />
+        <img
+          img
+          src="@/assets/images/ga/ga (2).jpg"
+          alt=""
+          class="w-full h-[5rem] rounded-lg object-cover object-center col-span-2 row-span-1"
+        />
+        <img
+          img
+          src="@/assets/images/ga/ga (3).jpg"
+          alt=""
+          class="w-full h-[10.5rem] rounded-lg object-cover object-center col-span-2 row-span-2"
+        />
+        <img
+          img
+          src="@/assets/images/ga/ga (4).jpg"
+          alt=""
+          class="w-full h-[5rem] rounded-lg object-cover object-center"
+        />
+        <img
+          img
+          src="@/assets/images/ga/ga (5).jpg"
+          alt=""
+          class="w-full h-[5rem] rounded-lg object-cover object-center"
+        />
+      </div>
+
+      <div class="md:w-1/2">
+        <h4 class="text-blue-600 text-xl font-semibold uppercase">General Assembly</h4>
+
+        <p class="mt-2 mb-8 md:line-clamp-6">
+          The BSECE General Assembly was a valuable opportunity for students to learn from experts
+          in the field and to network with other students, faculty, and alumni. It was also a great
+          way to stay up-to-date on the latest developments in electronics engineering.
+        </p>
+
+        <PrimaryButton class="ml-auto flex items-center gap-4 md:ml-0">
+          <span>View more about general assembly</span> <ArrowRightIcon />
+        </PrimaryButton>
+      </div>
+    </div>
+
+    <div class="max-w-screen-xl mx-auto flex flex-col gap-8 md:flex-row-reverse">
+      <div class="grid grid-cols-4 grid-rows-3 gap-2 md:w-1/2">
+        <img
+          img
+          src="@/assets/images/eng_week/eng_week (1).jpg"
+          alt=""
+          class="w-full h-[10.5rem] rounded-lg object-cover object-center col-span-2 row-span-2"
+        />
+        <img
+          img
+          src="@/assets/images/eng_week/eng_week (2).jpg"
+          alt=""
+          class="w-full h-[5rem] rounded-lg object-cover object-center col-span-2 row-span-1"
+        />
+        <img
+          img
+          src="@/assets/images/eng_week/eng_week (3).jpg"
+          alt=""
+          class="w-full h-[10.5rem] rounded-lg object-cover object-center col-span-2 row-span-2"
+        />
+        <img
+          img
+          src="@/assets/images/eng_week/eng_week (4).jpg"
+          alt=""
+          class="w-full h-[5rem] rounded-lg object-cover object-center"
+        />
+        <img
+          img
+          src="@/assets/images/eng_week/eng_week (5).jpg"
+          alt=""
+          class="w-full h-[5rem] rounded-lg object-cover object-center"
+        />
+      </div>
+
+      <div class="md:w-1/2">
+        <h4 class="text-blue-600 text-xl font-semibold uppercase">Engineering week</h4>
+
+        <p class="mt-2 mb-8 md:line-clamp-6">
+          BSECE Engineering Week was a great success and a valuable learning experience for BSECE
+          students, faculty, and alumni. The week provided students with the opportunity to learn
+          from experts, network with professionals, and compete against each other. It was also a
+          great way to celebrate the BSECE program and the field of electronics engineering.
+        </p>
+
+        <PrimaryButton class="ml-auto flex items-center gap-4 md:ml-0">
+          <span>View more about engineering week</span> <ArrowRightIcon />
+        </PrimaryButton>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script setup>
+import PrimaryButton from "@/components/PrimaryButton.vue";
+import ArrowRightIcon from "@/assets/icons/ArrowRightIcon.vue";
+</script>

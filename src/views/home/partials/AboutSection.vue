@@ -1,12 +1,14 @@
 <template>
   <section class="p-4 space-y-8">
+    <h2 class="text-blue-600 mt-4 text-3xl font-bold text-center">
+      Bachelor of Science in Electronics Engineering
+    </h2>
+
     <p class="mt-4 text-center md:w-3/4 md:mx-auto">
-      The
-      <span class="font-medium">Bachelor of Science in Electronics Engineering (BSECE)</span>
-      program is an exciting and dynamic field of study that prepares students for a rewarding
-      career in the ever-evolving world of electronics. This program provides a comprehensive
-      understanding of electrical circuits, electronic devices, telecommunications systems, and
-      digital electronics.
+      The Bachelor of Science in Electronics Engineering (BSECE) program is an exciting and dynamic
+      field of study that prepares students for a rewarding career in the ever-evolving world of
+      electronics. This program provides a comprehensive understanding of electrical circuits,
+      electronic devices, telecommunications systems, and digital electronics.
     </p>
 
     <div

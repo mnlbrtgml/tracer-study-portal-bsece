@@ -18,7 +18,20 @@
         </RouterLink>
       </div>
 
-      <div>
+      <div class="lg:flex lg:items-center">
+        <ul class="hidden lg:flex">
+          <li
+            v-for="(route, index) in routes.filter((key) =>
+              true ? key.requiresAuthentication === false : key
+            )"
+            :key="index"
+          >
+            <RouterLink :to="{ name: route.name }" class="px-4 py-2 font-semibold capitalize">
+              {{ route.name }}
+            </RouterLink>
+          </li>
+        </ul>
+
         <PrimaryButton> Sign in </PrimaryButton>
       </div>
     </nav>
@@ -118,5 +131,9 @@ const scrollToTop = () => window.scrollTo(0, 0);
 
 :is(aside a.router-link-active::after) {
   @apply bg-blue-600 content-[''] w-1 h-6 rounded-lg absolute right-0 top-2;
+}
+
+:is(header a.router-link-active) {
+  @apply text-blue-600;
 }
 </style>
