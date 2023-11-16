@@ -1,5 +1,11 @@
 <template>
-  <section class="bg-gray-50 px-4 py-8 space-y-12">
+  <section>
+    <div class="container mx-auto p-2 md:p-4 lg:p-8">
+      
+    </div>
+  </section>
+
+  <!-- <section class="bg-gray-50 px-4 py-8 space-y-12">
     <div class="max-w-screen-xl mx-auto flex flex-col gap-8 md:flex-row">
       <div class="grid grid-cols-4 grid-rows-3 gap-2 md:w-1/2">
         <img
@@ -196,7 +202,7 @@
         </PrimaryButton>
       </div>
     </div>
-  </section>
+  </section> -->
 </template>
 
 <script setup>

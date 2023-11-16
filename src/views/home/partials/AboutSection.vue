@@ -1,11 +1,11 @@
 <template>
   <section>
-    <div class="container h-full mx-auto p-2 md:p-4 lg:p-8">
+    <div class="container mx-auto p-2 md:p-4 lg:p-8">
       <div class="grid gap-4 lg:grid-cols-5 lg:gap-8">
         <img
           src="@/assets/images/UrsmFacade.webp"
           alt="URSM Facade"
-          class="w-full aspect-video mx-auto rounded-lg object-cover lg:col-span-2 lg:h-full"
+          class="w-full aspect-video mx-auto rounded-lg object-cover shadow-lg lg:col-span-2 lg:h-full"
         />
 
         <div class="flex flex-col gap-4 lg:col-span-3 lg:gap-8">

@@ -1,8 +1,8 @@
 <template>
   <HeroSection />
   <AboutSection />
-  <!-- <GallerySection />
-  <FooterSection /> -->
+  <GallerySection />
+  <FooterSection />
 </template>
 
 <script setup>
