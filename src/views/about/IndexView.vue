@@ -1,3 +1,7 @@
 <template>
-  <h1 class="text-3xl font-bold underline">Hello about page!</h1>
+  <HeroSection />
 </template>
+
+<script setup>
+import HeroSection from "@/views/about/partials/HeroSection.vue";
+</script>
