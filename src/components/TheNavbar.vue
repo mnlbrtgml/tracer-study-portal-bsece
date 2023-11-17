@@ -140,6 +140,10 @@ onClickOutside(sidebar, (event) => event.target.tagName === "ASIDE" && toggleSid
   @apply bg-blue-600 content-[''] w-1 h-6 rounded-lg absolute right-0 top-2;
 }
 
+:is(header ul::after) {
+  @apply bg-blue-600 content-[''] w-active h-1 rounded-full absolute -bottom-px translate-x-active transition-all;
+}
+
 :is(header a.router-link-active) {
   @apply text-blue-600;
 }

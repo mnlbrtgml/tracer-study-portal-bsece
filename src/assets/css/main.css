@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --width: 0;
+    --translate: 0;
+  }
+
   :is(html, body) {
     @apply bg-gray-100 text-gray-700 antialiased;
   }

@@ -5,7 +5,14 @@ export default {
     fontFamily: {
       sans: ["Poppins", "sans-serif"]
     },
-    extend: {}
+    extend: {
+      width: {
+        active: "var(--width)"
+      },
+      translate: {
+        active: "var(--translate)"
+      }
+    }
   },
   plugins: [require("flowbite/plugin")]
 };
