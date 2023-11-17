@@ -47,7 +47,9 @@
             come together to celebrate their achievements and the future of the program.
           </p>
 
-          <PrimaryButton class="ml-auto flex items-center gap-4 md:ml-0">
+          <PrimaryButton
+            class="w-full ml-auto flex items-center justify-center gap-4 md:w-max md:ml-0"
+          >
             <span>View more about ECE Week</span> <ArrowRightIcon />
           </PrimaryButton>
         </div>
@@ -99,7 +101,9 @@
             also a lot of fun, and everyone had a great time.
           </p>
 
-          <PrimaryButton class="ml-auto flex items-center gap-4 md:ml-0">
+          <PrimaryButton
+            class="w-full ml-auto flex items-center justify-center gap-4 md:w-max md:ml-0"
+          >
             <span>View more about quiz show</span> <ArrowRightIcon />
           </PrimaryButton>
         </div>
@@ -151,7 +155,9 @@
             great way to stay up-to-date on the latest developments in electronics engineering.
           </p>
 
-          <PrimaryButton class="ml-auto flex items-center gap-4 md:ml-0">
+          <PrimaryButton
+            class="w-full ml-auto flex items-center justify-center gap-4 md:w-max md:ml-0"
+          >
             <span>View more about general assembly</span> <ArrowRightIcon />
           </PrimaryButton>
         </div>
@@ -204,7 +210,9 @@
             great way to celebrate the BSECE program and the field of electronics engineering.
           </p>
 
-          <PrimaryButton class="ml-auto flex items-center gap-4 md:ml-0">
+          <PrimaryButton
+            class="w-full ml-auto flex items-center justify-center gap-4 md:w-max md:ml-0"
+          >
             <span>View more about engineering week</span> <ArrowRightIcon />
           </PrimaryButton>
         </div>
