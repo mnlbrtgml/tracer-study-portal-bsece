@@ -1,8 +1,8 @@
 <template>
   <header
-    class="border-gray-100 border-b-gray-300 bg-gray-100 text-gray-700 h-[3.75rem] p-1 border sticky top-0 z-40"
+    class="border-gray-100 border-b-gray-300 bg-gray-100 text-gray-700 h-[3.75rem] p-1 border shadow sticky top-0 z-40"
   >
-    <nav class="h-full px-3 py-1 flex items-center justify-between gap-4">
+    <nav class="container h-full mx-auto px-3 py-1 flex items-center justify-between gap-4">
       <div class="flex items-center gap-2">
         <IconedButton @click="toggleSidebar" class="lg:hidden">
           <MenuIcon />
@@ -14,11 +14,11 @@
           class="font-bold flex items-center"
         >
           <img :src="UrsLogo" alt="" width="24" height="24" />
-          <span class="hidden sm:block"> Tracer Study Portal </span>
+          <span class="hidden sm:block sm:text-xl"> Tracer Study Portal </span>
         </RouterLink>
       </div>
 
-      <div class="lg:flex lg:items-center">
+      <div class="lg:flex lg:items-center lg:gap-8">
         <ul class="hidden lg:flex">
           <li
             v-for="(route, index) in routes.filter((key) =>
@@ -26,7 +26,7 @@
             )"
             :key="index"
           >
-            <RouterLink :to="{ name: route.name }" class="px-4 py-2 font-semibold capitalize">
+            <RouterLink :to="{ name: route.name }" class="p-2 font-semibold capitalize">
               {{ route.name }}
             </RouterLink>
           </li>
@@ -40,7 +40,10 @@
   <aside
     :class="`bg-gray-900/80 h-[100vh] fixed inset-0 z-50 transition-transform lg:hidden ${sidebarClass}`"
   >
-    <nav class="bg-gray-100 text-gray-700 w-3/4 max-w-xs h-full p-4 flex flex-col gap-4">
+    <nav
+      ref="sidebar"
+      class="bg-gray-100 text-gray-700 w-3/4 max-w-xs h-full p-4 flex flex-col gap-4"
+    >
       <IconedButton @click="toggleSidebar" class="self-end">
         <CloseIcon />
       </IconedButton>
@@ -71,6 +74,7 @@
 <script setup>
 import { ref, computed } from "vue";
 import { RouterLink } from "vue-router";
+import { onClickOutside } from "@vueuse/core";
 
 import PrimaryButton from "@/components/PrimaryButton.vue";
 import IconedButton from "@/components/IconedButton.vue";
@@ -115,6 +119,7 @@ const routes = [
   }
 ];
 
+const sidebar = ref(null);
 const isSidebarVisible = ref(false);
 const sidebarClass = computed(() =>
   isSidebarVisible.value ? "translate-x-0" : "-translate-x-full"
@@ -122,6 +127,8 @@ const sidebarClass = computed(() =>
 
 const toggleSidebar = () => (isSidebarVisible.value = !isSidebarVisible.value);
 const scrollToTop = () => window.scrollTo(0, 0);
+
+onClickOutside(sidebar, (event) => event.target.tagName === "ASIDE" && toggleSidebar());
 </script>
 
 <style lang="postcss" scoped>
