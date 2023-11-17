@@ -14,7 +14,7 @@
           class="font-bold flex items-center"
         >
           <img :src="UrsLogo" alt="" width="24" height="24" />
-          <span class="hidden min-[375px]:block min-[425px]:text-xl"> Tracer Study Portal </span>
+          <span class="text-blue-600 hidden min-[375px]:block min-[425px]:text-xl"> Tracer Study Portal </span>
         </RouterLink>
       </div>
 
@@ -144,7 +144,7 @@ onClickOutside(sidebar, (event) => event.target.tagName === "ASIDE" && toggleSid
   @apply bg-blue-600 content-[''] w-active h-1 rounded-full absolute -bottom-px translate-x-active transition-all;
 }
 
-:is(header a.router-link-active) {
+:is(header ul a.router-link-active) {
   @apply text-blue-600;
 }
 </style>
