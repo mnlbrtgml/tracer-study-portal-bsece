@@ -1,7 +1,7 @@
 <template>
   <TheNavbar v-if="isNavbarVisible" />
 
-  <main class="bg-gray-200 text-gray-800 min-h-[100vh]">
+  <main>
     <RouterView />
   </main>
 </template>

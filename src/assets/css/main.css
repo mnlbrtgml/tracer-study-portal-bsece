@@ -8,8 +8,8 @@
     --translate: 0;
   }
 
-  :is(html, body) {
-    @apply bg-gray-100 text-gray-700 antialiased;
+  :is(html, body, main) {
+    @apply bg-gray-200 text-gray-800 antialiased;
   }
 
   :is(html) {

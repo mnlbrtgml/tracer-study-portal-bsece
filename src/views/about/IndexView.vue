@@ -1,7 +1,7 @@
 <template>
-  <HeroSection />
+  <UniversityProfileSection />
 </template>
 
 <script setup>
-import HeroSection from "@/views/about/partials/HeroSection.vue";
+import UniversityProfileSection from "@/views/about/partials/UniversityProfileSection.vue";
 </script>

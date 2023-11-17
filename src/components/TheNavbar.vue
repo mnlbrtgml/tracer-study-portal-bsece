@@ -14,7 +14,7 @@
           class="font-bold flex items-center"
         >
           <img :src="UrsLogo" alt="" width="24" height="24" />
-          <span class="hidden sm:block sm:text-xl"> Tracer Study Portal </span>
+          <span class="hidden min-[375px]:block min-[425px]:text-xl"> Tracer Study Portal </span>
         </RouterLink>
       </div>
 
