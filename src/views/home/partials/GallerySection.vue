@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="bg-gray-100">
     <div class="container mx-auto p-2 space-y-12 md:p-4 lg:p-8">
       <div class="flex flex-col gap-4 md:flex-row lg:gap-8">
         <div class="grid grid-cols-5 gap-2 md:w-1/2 lg:w-1/3">
@@ -39,7 +39,7 @@
         </div>
 
         <div class="md:w-1/2 lg:w-2/3">
-          <h4 class="text-blue-700 text-2xl font-semibold uppercase">ECE Week</h4>
+          <h4 class="text-blue-600 text-2xl font-semibold uppercase">ECE Week</h4>
 
           <p class="mb-8 md:line-clamp-6">
             BSECE Week is a week-long celebration of the Bachelor of Science in Electronics
@@ -91,7 +91,7 @@
         </div>
 
         <div class="md:w-1/2 lg:w-2/3">
-          <h4 class="text-blue-700 text-2xl font-semibold uppercase">Quiz Show</h4>
+          <h4 class="text-blue-600 text-2xl font-semibold uppercase">Quiz Show</h4>
 
           <p class="mb-8 md:line-clamp-6">
             The BSECE Quiz Show was a great opportunity for students to learn more about electronics
@@ -143,7 +143,7 @@
         </div>
 
         <div class="md:w-1/2 lg:w-2/3">
-          <h4 class="text-blue-700 text-2xl font-semibold uppercase">General Assembly</h4>
+          <h4 class="text-blue-600 text-2xl font-semibold uppercase">General Assembly</h4>
 
           <p class="mb-8 md:line-clamp-6">
             The BSECE General Assembly was a valuable opportunity for students to learn from experts
@@ -195,7 +195,7 @@
         </div>
 
         <div class="md:w-1/2 lg:w-2/3">
-          <h4 class="text-blue-700 text-2xl font-semibold uppercase">Engineering week</h4>
+          <h4 class="text-blue-600 text-2xl font-semibold uppercase">Engineering week</h4>
 
           <p class="mb-8 md:line-clamp-6">
             BSECE Engineering Week was a great success and a valuable learning experience for BSECE
