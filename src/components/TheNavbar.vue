@@ -14,7 +14,9 @@
           class="font-bold flex items-center"
         >
           <img :src="UrsLogo" alt="" width="24" height="24" />
-          <span class="text-blue-600 hidden min-[375px]:block min-[425px]:text-xl"> Tracer Study Portal </span>
+          <span class="text-blue-600 hidden min-[375px]:block min-[425px]:text-xl">
+            Tracer Study Portal
+          </span>
         </RouterLink>
       </div>
 
@@ -32,7 +34,7 @@
           </li>
         </ul>
 
-        <PrimaryButton> Sign in </PrimaryButton>
+        <PrimaryButton @click="button.function"> {{ button.text }} </PrimaryButton>
       </div>
     </nav>
   </header>
@@ -66,15 +68,18 @@
         </li>
       </ul>
 
-      <PrimaryButton> Sign in </PrimaryButton>
+      <PrimaryButton @click="button.function"> {{ button.text }} </PrimaryButton>
     </nav>
   </aside>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { RouterLink } from "vue-router";
+import { ref, reactive, computed } from "vue";
+import { RouterLink, useRouter } from "vue-router";
 import { onClickOutside } from "@vueuse/core";
+import { app } from "@/firebase/configuration";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useSignOut } from "@/firebase/authentication";
 
 import PrimaryButton from "@/components/PrimaryButton.vue";
 import IconedButton from "@/components/IconedButton.vue";
@@ -119,16 +124,31 @@ const routes = [
   }
 ];
 
+const router = useRouter();
+const auth = getAuth(app);
 const sidebar = ref(null);
 const isSidebarVisible = ref(false);
 const sidebarClass = computed(() =>
   isSidebarVisible.value ? "translate-x-0" : "-translate-x-full"
 );
+const button = reactive({
+  text: null,
+  function: null
+});
 
 const toggleSidebar = () => (isSidebarVisible.value = !isSidebarVisible.value);
 const scrollToTop = () => window.scrollTo(0, 0);
 
 onClickOutside(sidebar, (event) => event.target.tagName === "ASIDE" && toggleSidebar());
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    button.text = "Sign out";
+    button.function = useSignOut();
+  } else {
+    button.text = "Sign in";
+    button.function = () => router.push({ name: "signin" });
+  }
+});
 </script>
 
 <style lang="postcss" scoped>

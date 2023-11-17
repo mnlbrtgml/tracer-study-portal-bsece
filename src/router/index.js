@@ -1,4 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { app } from "@/firebase/configuration";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useSignOut } from "@/firebase/authentication";
 
 import HomeView from "@/views/home/IndexView.vue";
 import GalleryView from "@/views/gallery/IndexView.vue";
@@ -51,8 +54,25 @@ const router = createRouter({
   ]
 });
 
+router.beforeEach((to, _, next) => {
+  const auth = getAuth(app);
+
+  onAuthStateChanged(auth, async (user) => {
+    if (to.name === "signin" && user) {
+      const response = await useSignOut();
+      const result = await response;
+
+      console.log(result);
+
+      next({ name: "home" });
+    } else {
+      next();
+    }
+  });
+});
+
 router.afterEach((to) => {
-  if (to.name !== "error") {
+  if (!(to.name === "error" || to.name === "signin")) {
     const header = Array.from(document.querySelectorAll("header ul a"));
     const links = header.map((key) => ({
       name: key.innerText.toLowerCase(),
