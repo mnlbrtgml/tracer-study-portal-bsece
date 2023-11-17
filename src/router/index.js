@@ -52,23 +52,25 @@ const router = createRouter({
 });
 
 router.afterEach((to) => {
-  const header = Array.from(document.querySelectorAll("header ul a"));
-  const links = header.map((key) => ({
-    name: key.innerText.toLowerCase(),
-    width: key.getBoundingClientRect().width
-  }));
-  const active = { name: to.name, index: links.findIndex((key) => key.name === to.name) };
+  if (to.name !== "error") {
+    const header = Array.from(document.querySelectorAll("header ul a"));
+    const links = header.map((key) => ({
+      name: key.innerText.toLowerCase(),
+      width: key.getBoundingClientRect().width
+    }));
+    const active = { name: to.name, index: links.findIndex((key) => key.name === to.name) };
 
-  if (active !== -1) {
-    const root = document.querySelector(":root");
+    if (active !== -1) {
+      const root = document.querySelector(":root");
 
-    const width = links
-      .slice(0, active.index)
-      .map((key) => key.width)
-      .reduce((prev, curr) => prev + curr, 0);
+      const width = links
+        .slice(0, active.index)
+        .map((key) => key.width)
+        .reduce((prev, curr) => prev + curr, 0);
 
-    root.style.setProperty("--width", `${links[active.index].width}px`);
-    root.style.setProperty("--translate", `${width}px`);
+      root.style.setProperty("--width", `${links[active.index].width}px`);
+      root.style.setProperty("--translate", `${width}px`);
+    }
   }
 });
 
