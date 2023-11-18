@@ -98,7 +98,7 @@ const routes = [
   {
     name: "gallery",
     icon: GalleryIcon,
-    requiresAuthentication: true
+    requiresAuthentication: false
   },
   {
     name: "graduates",
