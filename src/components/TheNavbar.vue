@@ -98,12 +98,12 @@ const routes = [
   {
     name: "gallery",
     icon: GalleryIcon,
-    requiresAuthentication: false
+    requiresAuthentication: true
   },
   {
     name: "graduates",
     icon: GraduatesIcon,
-    requiresAuthentication: false
+    requiresAuthentication: true
   },
   {
     name: "about",
