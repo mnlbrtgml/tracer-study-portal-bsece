@@ -1,3 +1,7 @@
 <template>
-  <h1 class="text-3xl font-bold underline">Hello form page!</h1>
+  <GeneralInformationSection />
 </template>
+
+<script setup>
+import GeneralInformationSection from "@/views/form/partials/GeneralInformationSection.vue";
+</script>

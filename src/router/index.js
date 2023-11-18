@@ -1,7 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { app } from "@/firebase/configuration";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useSignOut } from "@/firebase/authentication";
 
 import HomeView from "@/views/home/IndexView.vue";
 import GalleryView from "@/views/gallery/IndexView.vue";
@@ -14,62 +11,75 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
+      meta: { requiresAuthentication: false },
       component: HomeView
     },
     {
       path: "/gallery",
       name: "gallery",
+      meta: { requiresAuthentication: false },
       component: GalleryView
     },
     {
       path: "/graduates",
       name: "graduates",
+      meta: { requiresAuthentication: true },
       component: GraduatesView
     },
     {
       path: "/about",
       name: "about",
+      meta: { requiresAuthentication: true },
       component: AboutView
     },
     {
       path: "/form",
       name: "form",
+      meta: { requiresAuthentication: true },
       component: () => import("@/views/form/IndexView.vue")
     },
     {
       path: "/profile",
       name: "profile",
+      meta: { requiresAuthentication: true },
       component: () => import("@/views/profile/IndexView.vue")
     },
     {
       path: "/signin",
       name: "signin",
+      meta: { requiresAuthentication: false },
       component: () => import("@/views/signin/IndexView.vue")
     },
     {
       path: "/:pathMatch(.*)*",
       name: "error",
+      meta: { requiresAuthentication: false },
       component: () => import("@/views/error/IndexView.vue")
     }
   ]
 });
 
-router.beforeEach((to, _, next) => {
-  const auth = getAuth(app);
+// router.beforeEach((to, _, next) => {
+//   const firebase = localStorage.getItem("firebase");
 
-  onAuthStateChanged(auth, async (user) => {
-    if (to.name === "signin" && user) {
-      const response = await useSignOut();
-      const result = await response;
-
-      console.log(result);
-
-      next({ name: "home" });
-    } else {
-      next();
-    }
-  });
-});
+//   if (to.name === "signin") {
+//     if (firebase) {
+//       next({ name: "home" });
+//     } else {
+//       next();
+//     }
+//   } else {
+//     if (to.meta.requiresAuthentication) {
+//       if (firebase) {
+//         next();
+//       } else {
+//         next({ name: "signin" });
+//       }
+//     } else {
+//       next();
+//     }
+//   }
+// });
 
 router.afterEach((to) => {
   if (!(to.name === "error" || to.name === "signin")) {

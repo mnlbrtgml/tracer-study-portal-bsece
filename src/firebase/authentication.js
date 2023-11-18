@@ -39,6 +39,8 @@ const useSignIn = async (email, password) => {
     if (response) {
       status.code = 200;
       status.message = "User signed in successfully";
+
+      localStorage.setItem("firebase", response.user.uid);
     }
 
     return status;
@@ -60,6 +62,8 @@ const useSignOut = async () => {
     if (response) {
       status.code = 200;
       status.message = "User signed out successfully";
+
+      localStorage.setItem("firebase", response.user.uid);
     }
 
     return status;

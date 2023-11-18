@@ -77,8 +77,6 @@
 import { ref, reactive, computed } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import { onClickOutside } from "@vueuse/core";
-import { app } from "@/firebase/configuration";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useSignOut } from "@/firebase/authentication";
 
 import PrimaryButton from "@/components/PrimaryButton.vue";
@@ -124,8 +122,8 @@ const routes = [
   }
 ];
 
+const firebase = localStorage.getItem("firebase");
 const router = useRouter();
-const auth = getAuth(app);
 const sidebar = ref(null);
 const isSidebarVisible = ref(false);
 const sidebarClass = computed(() =>
@@ -138,17 +136,20 @@ const button = reactive({
 
 const toggleSidebar = () => (isSidebarVisible.value = !isSidebarVisible.value);
 const scrollToTop = () => window.scrollTo(0, 0);
+const signOut = () => {
+  useSignOut();
+  router.push({ name: "signin" });
+};
 
 onClickOutside(sidebar, (event) => event.target.tagName === "ASIDE" && toggleSidebar());
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    button.text = "Sign out";
-    button.function = useSignOut();
-  } else {
-    button.text = "Sign in";
-    button.function = () => router.push({ name: "signin" });
-  }
-});
+
+if (firebase) {
+  button.text = "Sign out";
+  button.function = signOut();
+} else {
+  button.text = "Sign in";
+  button.function = () => router.push({ name: "signin" });
+}
 </script>
 
 <style lang="postcss" scoped>
