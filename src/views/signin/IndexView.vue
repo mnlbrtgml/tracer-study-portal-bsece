@@ -26,16 +26,31 @@
         <p class="mb-4 font-medium text-center">Sign in to continue</p>
 
         <div class="px-2 grid gap-4 lg:px-4">
-          <InputEmail v-model="signInCredentials.email" id="email" label="Email" required />
+          <InputEmail
+            v-model.trim="credentials.signIn.email"
+            id="signin-email"
+            label="Email"
+            required
+          />
+
           <InputPassword
-            v-model="signInCredentials.password"
-            id="password"
+            v-model.trim="credentials.signIn.password"
+            id="signin-password"
             label="Password"
             required
           />
         </div>
 
-        <PrimaryButton type="submit" class="mt-8"> Sign in </PrimaryButton>
+        <div class="h-10 grid place-items-center">
+          <p
+            v-if="isError.signIn"
+            class="border-red-300 bg-red-100 text-red-400 px-2 py-1 border rounded-full text-xs"
+          >
+            Invalid email and password
+          </p>
+        </div>
+
+        <PrimaryButton type="submit"> Sign in </PrimaryButton>
         <button @click="showModal" type="button">Create new account</button>
       </form>
     </div>
@@ -45,44 +60,77 @@
     <div
       class="border-gray-300 bg-gray-100 text-gray-700 p-4 border rounded-lg flex flex-col gap-4"
     >
-      <div class="flex justify-between">
-        <p class="text-lg font-bold">Create new account</p>
+      <div class="flex items-start justify-between">
+        <div>
+          <p class="font-bold">Create new account</p>
+          <p class="text-xs">Fill out the form for the validation</p>
+        </div>
 
         <IconedButton @click="unshowModal">
           <CloseIcon />
         </IconedButton>
       </div>
 
-      <form class="grid gap-4">
-        <InputText v-model="signUpCredentials.name" id="signup-text" label="Name" required />
-        <InputEmail v-model="signUpCredentials.email" id="signup-email" label="Email" required />
-        <InputPassword
-          v-model="signUpCredentials.password"
-          id="signup-password"
-          label="Password"
-          required
-        />
-        <InputPassword
-          v-model="signUpCredentials.retypePassword"
-          id="signup-retype-password"
-          label="Retype password"
-          required
-        />
+      <div class="border-blue-300 bg-blue-200 text-blue-800 p-2 border rounded-lg text-xs grid">
+        <p>Use the name from your diploma.</p>
+        <p>Use this format: surname, first name middle initial. Ex. Doe, John D.</p>
+      </div>
 
-        <PrimaryButton type="submit" class="mt-8"> Sign up </PrimaryButton>
+      <form @submit.prevent="signUp" class="grid gap-4">
+        <div class="px-2 grid gap-2.5 lg:px-4">
+          <InputText
+            v-model.trim="credentials.signUp.name"
+            id="signup-text"
+            label="Name"
+            required
+          />
+
+          <InputEmail
+            v-model.trim="credentials.signUp.email"
+            id="signup-email"
+            label="Email"
+            required
+          />
+
+          <InputPassword
+            v-model.trim="credentials.signUp.password"
+            id="signup-password"
+            label="Password"
+            required
+          />
+
+          <InputPassword
+            v-model.trim="credentials.signUp.retypePassword"
+            id="signup-retype-password"
+            label="Retype password"
+            required
+          />
+        </div>
+
+        <div class="h-10 grid place-items-center">
+          <p
+            v-if="isError.signUp"
+            class="border-red-300 bg-red-100 text-red-400 px-2 py-1 border rounded-full text-xs text-center"
+          >
+            {{ isError.message }}
+          </p>
+        </div>
+
+        <PrimaryButton type="submit"> Sign up </PrimaryButton>
       </form>
     </div>
   </dialog>
 
-  <TheLoading v-if="loading" />
+  <TheLoading v-if="isLoading" />
 </template>
 
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, toRefs } from "vue";
 import { useSignIn } from "@/firebase/authentication";
 import { useRouter } from "vue-router";
-import TheLoading from "@/components/TheLoading.vue";
+import { read, utils } from "xlsx";
 
+import TheLoading from "@/components/TheLoading.vue";
 import InputEmail from "@/components/InputEmail.vue";
 import InputPassword from "@/components/InputPassword.vue";
 import InputText from "@/components/InputText.vue";
@@ -91,29 +139,90 @@ import IconedButton from "@/components/IconedButton.vue";
 import CloseIcon from "@/assets/icons/CloseIcon.vue";
 
 const router = useRouter();
-const loading = ref(false);
 const modal = ref(null);
-const signInCredentials = reactive({
-  email: null,
-  password: null
+const isLoading = ref(false);
+const isError = reactive({
+  signIn: false,
+  signUp: false,
+  message: null
 });
-const signUpCredentials = reactive({
-  email: null,
-  password: null,
-  retypePassword: null,
-  name: null
+const credentials = reactive({
+  signIn: {
+    email: null,
+    password: null
+  },
+
+  signUp: {
+    name: null,
+    email: null,
+    password: null,
+    retypePassword: null
+  }
 });
+
+const useGetAlumniList = async () => {
+  try {
+    const response = await fetch("/src/assets/excel/Record.xlsx");
+    const result = await response.arrayBuffer();
+    const workBook = read(result);
+    const workSheet = workBook.Sheets[workBook.SheetNames[0]];
+    const data = utils.sheet_to_json(workSheet);
+    const alumni = [];
+
+    data.forEach((item) => {
+      const { __EMPTY: index, Name: name, "School Year": schoolYear, Semester: semester } = item;
+
+      alumni.push({
+        index,
+        name,
+        schoolYear,
+        semester
+      });
+    });
+
+    return alumni;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const useGetAlum = async (name) => {
+  const alumniList = await useGetAlumniList();
+  const alumNamesList = alumniList.map((item) => item.name);
+  return alumNamesList.includes(name) ? "Record found!" : "No record found!";
+};
+
+const signUp = async () => {
+  const { name, email, password, retypePassword } = toRefs(credentials.signUp);
+
+  isError.message = "Sorry! Your passwords do not match.";
+
+  isError.message = "Sorry! Your email is already taken.";
+
+  const nameResponse = await useGetAlum(name.value);
+  const nameResult = nameResponse === "Record found!" ? true : false;
+
+  if (nameResult) {
+    // check the email
+  } else {
+    isError.signUp = true;
+    isError.message = "Sorry! Your name is not on the list of alumni.";
+  }
+};
 
 const signIn = async () => {
-  loading.value = true;
+  isError.signIn = false;
+  isLoading.value = true;
 
-  const response = await useSignIn(signInCredentials.email, signInCredentials.password);
+  const { email, password } = toRefs(credentials.signIn);
+  const response = await useSignIn(email.value, password.value);
 
   if (response && response.code === 200) {
-    loading.value = false;
+    isLoading.value = false;
     router.push({ name: "home" });
   } else {
-    console.log(response);
+    isLoading.value = false;
+    isError.signIn = true;
   }
 };
 
