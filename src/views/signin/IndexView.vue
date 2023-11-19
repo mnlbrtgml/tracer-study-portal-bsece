@@ -215,9 +215,9 @@ const signIn = async () => {
   isLoading.value = true;
 
   const { email, password } = toRefs(credentials.signIn);
-  const response = await useSignIn(email.value, password.value);
+  const signInResponse = await useSignIn(email.value, password.value);
 
-  if (response && response.code === 200) {
+  if (signInResponse && signInResponse.code === 200) {
     isLoading.value = false;
     router.push({ name: "home" });
   } else {

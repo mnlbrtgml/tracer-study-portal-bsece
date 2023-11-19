@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { useHasSignedIn } from "@/firebase/authentication";
 
 import HomeView from "@/views/home/IndexView.vue";
 import GalleryView from "@/views/gallery/IndexView.vue";
@@ -17,7 +18,7 @@ const router = createRouter({
     {
       path: "/gallery",
       name: "gallery",
-      meta: { requiresAuthentication: false },
+      meta: { requiresAuthentication: true },
       component: GalleryView
     },
     {
@@ -29,7 +30,7 @@ const router = createRouter({
     {
       path: "/about",
       name: "about",
-      meta: { requiresAuthentication: true },
+      meta: { requiresAuthentication: false },
       component: AboutView
     },
     {
@@ -59,34 +60,25 @@ const router = createRouter({
   ]
 });
 
-// router.beforeEach((to, _, next) => {
-//   const firebase = localStorage.getItem("firebase");
+router.beforeEach((to, _, next) => {
+  const hasSignedIn = useHasSignedIn();
+  const requiresAuthentication = to.meta.requiresAuthentication;
 
-//   if (to.name === "signin") {
-//     if (firebase) {
-//       next({ name: "home" });
-//     } else {
-//       next();
-//     }
-//   } else {
-//     if (to.meta.requiresAuthentication) {
-//       if (firebase) {
-//         next();
-//       } else {
-//         next({ name: "signin" });
-//       }
-//     } else {
-//       next();
-//     }
-//   }
-// });
+  if (hasSignedIn && to.name === "signin") {
+    next({ name: "home" });
+  } else if (!hasSignedIn && requiresAuthentication) {
+    next({ name: "signin" });
+  } else {
+    next();
+  }
+});
 
 router.afterEach((to) => {
-  if (!(to.name === "error" || to.name === "signin")) {
+  if (to.name !== "signin" && to.name !== "error") {
     const header = Array.from(document.querySelectorAll("header ul a"));
     const links = header.map((key) => ({
       name: key.innerText.toLowerCase(),
-      width: key.getBoundingClientRect().width
+      width: Math.round(key.getBoundingClientRect().width)
     }));
     const active = { name: to.name, index: links.findIndex((key) => key.name === to.name) };
 

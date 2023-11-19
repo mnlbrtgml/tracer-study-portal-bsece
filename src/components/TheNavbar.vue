@@ -22,16 +22,25 @@
 
       <div class="lg:flex lg:items-center lg:gap-8">
         <ul class="hidden lg:flex">
-          <li
-            v-for="(route, index) in routes.filter((key) =>
-              true ? key.requiresAuthentication === false : key
-            )"
-            :key="index"
-          >
+          <li v-for="(route, index) in routes" :key="index">
             <RouterLink :to="{ name: route.name }" class="p-2 font-semibold capitalize">
               {{ route.name }}
             </RouterLink>
           </li>
+
+          <template v-if="hasSignedIn">
+            <li>
+              <RouterLink :to="{ name: `form` }" class="p-2 font-semibold capitalize">
+                Form
+              </RouterLink>
+            </li>
+
+            <li>
+              <RouterLink :to="{ name: `profile` }" class="p-2 font-semibold capitalize">
+                Profile
+              </RouterLink>
+            </li>
+          </template>
         </ul>
 
         <PrimaryButton @click="button.function"> {{ button.text }} </PrimaryButton>
@@ -51,12 +60,7 @@
       </IconedButton>
 
       <ul>
-        <li
-          v-for="(route, index) in routes.filter((key) =>
-            true ? key.requiresAuthentication === false : key
-          )"
-          :key="index"
-        >
+        <li v-for="(route, index) in routes" :key="index">
           <RouterLink
             @click="toggleSidebar"
             :to="{ name: route.name }"
@@ -66,19 +70,44 @@
             <span> {{ route.name }} </span>
           </RouterLink>
         </li>
+
+        <template v-if="hasSignedIn">
+          <li>
+            <RouterLink
+              :to="{ name: `form` }"
+              class="px-4 py-2 rounded-lg font-semibold capitalize flex items-center gap-2"
+            >
+              <FormIcon />
+              <span>Form</span>
+            </RouterLink>
+          </li>
+
+          <li>
+            <RouterLink
+              :to="{ name: `profile` }"
+              class="px-4 py-2 rounded-lg font-semibold capitalize flex items-center gap-2"
+            >
+              <ProfileIcon />
+              <span>Profile</span>
+            </RouterLink>
+          </li>
+        </template>
       </ul>
 
       <PrimaryButton @click="button.function"> {{ button.text }} </PrimaryButton>
     </nav>
   </aside>
+
+  <TheLoading v-if="isLoading" />
 </template>
 
 <script setup>
-import { ref, reactive, computed } from "vue";
+import { ref, reactive, computed, onMounted } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import { onClickOutside } from "@vueuse/core";
-import { useSignOut } from "@/firebase/authentication";
+import { useHasSignedIn, useSignOut } from "@/firebase/authentication";
 
+import TheLoading from "@/components/TheLoading.vue";
 import PrimaryButton from "@/components/PrimaryButton.vue";
 import IconedButton from "@/components/IconedButton.vue";
 import MenuIcon from "@/assets/icons/MenuIcon.vue";
@@ -87,6 +116,8 @@ import HomeIcon from "@/assets/icons/HomeIcon.vue";
 import GalleryIcon from "@/assets/icons/GalleryIcon.vue";
 import GraduatesIcon from "@/assets/icons/GraduatesIcon.vue";
 import AboutIcon from "@/assets/icons/AboutIcon.vue";
+import FormIcon from "@/assets/icons/FormIcon.vue";
+import ProfileIcon from "@/assets/icons/ProfileIcon.vue";
 import UrsLogo from "@/assets/images/UrsLogo.png";
 
 const routes = [
@@ -98,7 +129,7 @@ const routes = [
   {
     name: "gallery",
     icon: GalleryIcon,
-    requiresAuthentication: false
+    requiresAuthentication: true
   },
   {
     name: "graduates",
@@ -109,22 +140,13 @@ const routes = [
     name: "about",
     icon: AboutIcon,
     requiresAuthentication: false
-  },
-  {
-    name: "form",
-    icon: HomeIcon,
-    requiresAuthentication: true
-  },
-  {
-    name: "profile",
-    icon: HomeIcon,
-    requiresAuthentication: true
   }
 ];
 
-const firebase = localStorage.getItem("firebase");
 const router = useRouter();
+const isLoading = ref(null);
 const sidebar = ref(null);
+const hasSignedIn = ref(false);
 const isSidebarVisible = ref(false);
 const sidebarClass = computed(() =>
   isSidebarVisible.value ? "translate-x-0" : "-translate-x-full"
@@ -136,20 +158,34 @@ const button = reactive({
 
 const toggleSidebar = () => (isSidebarVisible.value = !isSidebarVisible.value);
 const scrollToTop = () => window.scrollTo(0, 0);
-const signOut = () => {
-  useSignOut();
-  router.push({ name: "signin" });
+const navigateToSignInView = () => router.push({ name: "signin" });
+const signOut = async () => {
+  isLoading.value = true;
+
+  const response = await useSignOut();
+
+  if (response && response.code === 200) {
+    isLoading.value = false;
+    navigateToSignInView();
+  }
 };
 
 onClickOutside(sidebar, (event) => event.target.tagName === "ASIDE" && toggleSidebar());
 
-if (firebase) {
-  button.text = "Sign out";
-  button.function = signOut();
-} else {
-  button.text = "Sign in";
-  button.function = () => router.push({ name: "signin" });
-}
+onMounted(async () => {
+  const hasSignedInResponse = await useHasSignedIn();
+  hasSignedIn.value = hasSignedInResponse;
+
+  if (hasSignedInResponse) {
+    button.text = "Sign out";
+    button.function = signOut;
+
+    router.push({ name: "signin" });
+  } else {
+    button.text = "Sign in";
+    button.function = navigateToSignInView;
+  }
+});
 </script>
 
 <style lang="postcss" scoped>
