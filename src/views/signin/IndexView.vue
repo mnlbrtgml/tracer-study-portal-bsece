@@ -56,9 +56,12 @@
     </div>
   </section>
 
-  <dialog ref="modal" class="bg-transparent container max-w-3xl max-h-full p-4">
+  <dialog
+    ref="modal"
+    class="bg-transparent container max-w-3xl h-full max-h-[calc(100vh-2rem)] p-4 overflow-hidden md:h-max"
+  >
     <div
-      class="border-gray-300 bg-gray-100 text-gray-700 p-4 border rounded-lg flex flex-col gap-4"
+      class="border-gray-300 bg-gray-100 text-gray-700 h-full p-4 border rounded-lg flex flex-col gap-4 overflow-y-auto"
     >
       <div class="flex items-start justify-between">
         <div>
@@ -101,14 +104,17 @@
           </div>
 
           <div class="px-2 grid gap-2.5 lg:px-4">
-            <div class="flex items-center gap-2">
+            <div
+              :class="credentials.signUp.birthday ? `text-gray-700` : `text-gray-400`"
+              class="flex flex-col md:flex-row md:items-center md:gap-2"
+            >
               <label for="signup-birthday">Birthday</label>
               <input
                 v-model="credentials.signUp.birthday"
                 ref="date"
                 type="date"
                 id="signup-birthday"
-                class="flex-1 rounded-lg border appearance-none"
+                class="border-gray-400 bg-gray-100 flex-1 rounded-lg border appearance-none"
               />
             </div>
 
