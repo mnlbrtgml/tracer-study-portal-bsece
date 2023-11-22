@@ -194,7 +194,7 @@ const credentials = reactive({
 
 const useGetAlumniList = async () => {
   try {
-    const response = await fetch("/src/assets/excel/Record.xlsx");
+    const response = await fetch("/excel/Record.xlsx");
     const result = await response.arrayBuffer();
     const workBook = read(result);
     const workSheet = workBook.Sheets[workBook.SheetNames[0]];
