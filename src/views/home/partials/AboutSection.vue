@@ -34,7 +34,9 @@
           </div>
 
           <div class="text-sm grid gap-2 md:grid-cols-2 lg:flex-1">
-            <div class="border-gray-300 bg-gray-100 text-gray-700 p-4 border rounded-lg">
+            <div
+              class="border-gray-300 border-t-blue-600 bg-gray-100 text-gray-700 p-4 border border-t-4 rounded-lg"
+            >
               <img
                 src="@/assets/images/OverviewFirst.png"
                 alt=""
@@ -49,7 +51,9 @@
               </p>
             </div>
 
-            <div class="border-gray-300 bg-gray-100 text-gray-700 p-4 border rounded-lg">
+            <div
+              class="border-gray-300 border-t-blue-600 bg-gray-100 text-gray-700 p-4 border border-t-4 rounded-lg"
+            >
               <img
                 src="@/assets/images/OverviewSecond.png"
                 alt=""
@@ -64,7 +68,9 @@
               </p>
             </div>
 
-            <div class="border-gray-300 bg-gray-100 text-gray-700 p-4 border rounded-lg">
+            <div
+              class="border-gray-300 border-t-blue-600 bg-gray-100 text-gray-700 p-4 border border-t-4 rounded-lg"
+            >
               <img
                 src="@/assets/images/OverviewThird.png"
                 alt=""
@@ -80,7 +86,9 @@
               </p>
             </div>
 
-            <div class="border-gray-300 bg-gray-100 text-gray-700 p-4 border rounded-lg">
+            <div
+              class="border-gray-300 border-t-blue-600 bg-gray-100 text-gray-700 p-4 border border-t-4 rounded-lg"
+            >
               <img
                 src="@/assets/images/OverviewFourth.png"
                 alt=""

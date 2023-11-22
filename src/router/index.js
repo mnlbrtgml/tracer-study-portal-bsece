@@ -61,15 +61,22 @@ const router = createRouter({
 });
 
 router.beforeEach((to, _, next) => {
-  const hasSignedIn = useHasSignedIn();
-  const requiresAuthentication = to.meta.requiresAuthentication;
+  const account = useHasSignedIn();
+  const meta = to.meta.requiresAuthentication;
+  const name = to.name;
 
-  if (hasSignedIn && to.name === "signin") {
-    next({ name: "home" });
-  } else if (!hasSignedIn && requiresAuthentication) {
-    next({ name: "signin" });
+  if (name === "signin") {
+    if (account) {
+      next({ name: "home" });
+    } else {
+      next();
+    }
   } else {
-    next();
+    if (meta && !account) {
+      next({ name: "signin" });
+    } else {
+      next();
+    }
   }
 });
 

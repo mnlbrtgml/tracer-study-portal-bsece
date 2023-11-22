@@ -22,25 +22,16 @@
 
       <div class="lg:flex lg:items-center lg:gap-8">
         <ul class="hidden lg:flex">
-          <li v-for="(route, index) in routes" :key="index">
+          <li
+            v-for="(route, index) in hasSignedIn
+              ? routes
+              : routes.filter((key) => !key.requiresAuthentication)"
+            :key="index"
+          >
             <RouterLink :to="{ name: route.name }" class="p-2 font-semibold capitalize">
               {{ route.name }}
             </RouterLink>
           </li>
-
-          <template v-if="hasSignedIn">
-            <li>
-              <RouterLink :to="{ name: `form` }" class="p-2 font-semibold capitalize">
-                Form
-              </RouterLink>
-            </li>
-
-            <li>
-              <RouterLink :to="{ name: `profile` }" class="p-2 font-semibold capitalize">
-                Profile
-              </RouterLink>
-            </li>
-          </template>
         </ul>
 
         <PrimaryButton @click="button.function"> {{ button.text }} </PrimaryButton>
@@ -60,7 +51,12 @@
       </IconedButton>
 
       <ul>
-        <li v-for="(route, index) in routes" :key="index">
+        <li
+          v-for="(route, index) in hasSignedIn
+            ? routes
+            : routes.filter((key) => !key.requiresAuthentication)"
+          :key="index"
+        >
           <RouterLink
             @click="toggleSidebar"
             :to="{ name: route.name }"
@@ -70,28 +66,6 @@
             <span> {{ route.name }} </span>
           </RouterLink>
         </li>
-
-        <template v-if="hasSignedIn">
-          <li>
-            <RouterLink
-              :to="{ name: `form` }"
-              class="px-4 py-2 rounded-lg font-semibold capitalize flex items-center gap-2"
-            >
-              <FormIcon />
-              <span>Form</span>
-            </RouterLink>
-          </li>
-
-          <li>
-            <RouterLink
-              :to="{ name: `profile` }"
-              class="px-4 py-2 rounded-lg font-semibold capitalize flex items-center gap-2"
-            >
-              <ProfileIcon />
-              <span>Profile</span>
-            </RouterLink>
-          </li>
-        </template>
       </ul>
 
       <PrimaryButton @click="button.function"> {{ button.text }} </PrimaryButton>
@@ -140,6 +114,16 @@ const routes = [
     name: "about",
     icon: AboutIcon,
     requiresAuthentication: false
+  },
+  {
+    name: "form",
+    icon: FormIcon,
+    requiresAuthentication: true
+  },
+  {
+    name: "profile",
+    icon: ProfileIcon,
+    requiresAuthentication: true
   }
 ];
 
@@ -159,21 +143,23 @@ const button = reactive({
 const toggleSidebar = () => (isSidebarVisible.value = !isSidebarVisible.value);
 const scrollToTop = () => window.scrollTo(0, 0);
 const navigateToSignInView = () => router.push({ name: "signin" });
-const signOut = async () => {
+const signOut = () => {
   isLoading.value = true;
 
-  const response = await useSignOut();
+  useSignOut();
 
-  if (response && response.code === 200) {
+  setTimeout(() => {
     isLoading.value = false;
+    hasSignedIn.value = false;
+
     navigateToSignInView();
-  }
+  }, 1000);
 };
 
 onClickOutside(sidebar, (event) => event.target.tagName === "ASIDE" && toggleSidebar());
 
-onMounted(async () => {
-  const hasSignedInResponse = await useHasSignedIn();
+onMounted(() => {
+  const hasSignedInResponse = useHasSignedIn();
   hasSignedIn.value = hasSignedInResponse;
 
   if (hasSignedInResponse) {

@@ -56,7 +56,7 @@
     </div>
   </section>
 
-  <dialog ref="modal" class="bg-transparent container max-w-xl p-4">
+  <dialog ref="modal" class="bg-transparent container max-w-3xl max-h-full p-4">
     <div
       class="border-gray-300 bg-gray-100 text-gray-700 p-4 border rounded-lg flex flex-col gap-4"
     >
@@ -76,35 +76,56 @@
         <p>Use this format: surname, first name middle initial. Ex. Doe, John D.</p>
       </div>
 
-      <form @submit.prevent="signUp" class="grid gap-4">
-        <div class="px-2 grid gap-2.5 lg:px-4">
-          <InputText
-            v-model.trim="credentials.signUp.name"
-            id="signup-text"
-            label="Name"
-            required
-          />
+      <form @submit.prevent="signUp" class="grid gap-4 overflow-y-auto">
+        <div class="py-2 grid gap-2 md:grid-cols-2">
+          <div class="px-2 grid gap-2.5 lg:px-4">
+            <InputText
+              v-model.trim="credentials.signUp.firstName"
+              id="signup-first-name"
+              label="First name"
+              required
+            />
 
-          <InputEmail
-            v-model.trim="credentials.signUp.email"
-            id="signup-email"
-            label="Email"
-            required
-          />
+            <InputText
+              v-model.trim="credentials.signUp.middleName"
+              id="signup-middle-name"
+              label="Middle name"
+            />
 
-          <InputPassword
-            v-model.trim="credentials.signUp.password"
-            id="signup-password"
-            label="Password"
-            required
-          />
+            <InputText
+              v-model.trim="credentials.signUp.lastName"
+              id="signup-last-name"
+              label="Last name"
+              required
+            />
+          </div>
 
-          <InputPassword
-            v-model.trim="credentials.signUp.retypePassword"
-            id="signup-retype-password"
-            label="Retype password"
-            required
-          />
+          <div class="px-2 grid gap-2.5 lg:px-4">
+            <div class="flex items-center gap-2">
+              <label for="signup-birthday">Birthday</label>
+              <input
+                v-model="credentials.signUp.birthday"
+                ref="date"
+                type="date"
+                id="signup-birthday"
+                class="flex-1 rounded-lg border appearance-none"
+              />
+            </div>
+
+            <InputEmail
+              v-model.trim="credentials.signUp.email"
+              id="signup-email"
+              label="Email"
+              required
+            />
+
+            <InputPassword
+              v-model.trim="credentials.signUp.password"
+              id="signup-password"
+              label="Password"
+              required
+            />
+          </div>
         </div>
 
         <div class="h-10 grid place-items-center">
@@ -117,18 +138,19 @@
         </div>
 
         <PrimaryButton type="submit"> Sign up </PrimaryButton>
+
+        <TheLoading v-if="isLoading" />
       </form>
     </div>
   </dialog>
-
-  <TheLoading v-if="isLoading" />
 </template>
 
 <script setup>
 import { ref, reactive, toRefs } from "vue";
-import { useSignIn } from "@/firebase/authentication";
 import { useRouter } from "vue-router";
 import { read, utils } from "xlsx";
+import { useSignIn, useSignUp } from "@/firebase/authentication";
+import { useGetUsers } from "@/firebase/users";
 
 import TheLoading from "@/components/TheLoading.vue";
 import InputEmail from "@/components/InputEmail.vue";
@@ -153,10 +175,12 @@ const credentials = reactive({
   },
 
   signUp: {
-    name: null,
+    firstName: null,
+    middleName: null,
+    lastName: null,
+    birthday: null,
     email: null,
-    password: null,
-    retypePassword: null
+    password: null
   }
 });
 
@@ -193,20 +217,81 @@ const useGetAlum = async (name) => {
 };
 
 const signUp = async () => {
-  const { name, email, password, retypePassword } = toRefs(credentials.signUp);
+  isLoading.value = true;
+  isError.signUp = false;
 
-  isError.message = "Sorry! Your passwords do not match.";
+  const errorMessages = [
+    "Sorry! Your name is not on the list of alumni.",
+    "Sorry! Your have already created an account.",
+    "Sorry, You cannot create an account."
+  ];
 
-  isError.message = "Sorry! Your email is already taken.";
+  const { firstName, middleName, lastName, email } = toRefs(credentials.signUp);
 
-  const nameResponse = await useGetAlum(name.value);
-  const nameResult = nameResponse === "Record found!" ? true : false;
-
-  if (nameResult) {
-    // check the email
-  } else {
+  const showErrorMessage = (message) => {
+    isLoading.value = false;
     isError.signUp = true;
-    isError.message = "Sorry! Your name is not on the list of alumni.";
+    isError.message = message;
+  };
+
+  const validateNameOnExcelRecord = async (firstName, middleName, lastName) => {
+    const formatMiddleName = (middleName) => {
+      const formattedMiddleName = ref(null);
+      if (middleName.trim()) {
+        formattedMiddleName.value = middleName
+          .split(" ")
+          .map((key) => `${key.charAt(0)}.`)
+          .join("");
+      }
+      return formattedMiddleName.value;
+    };
+
+    const name = `${lastName}, ${firstName} ${formatMiddleName(middleName)}`;
+    const nameResponse = await useGetAlum(name);
+    return nameResponse === "Record found!" ? true : false;
+  };
+
+  const validateOnDatabaseRecord = async (firstName, middleName, lastName) => {
+    const getUsersResponse = await useGetUsers();
+    const nameResponse = getUsersResponse.filter((key) => {
+      key.data.firstName === firstName &&
+        key.data.middleName === middleName &&
+        key.data.lastName === lastName;
+    });
+    const emailResponse = getUsersResponse.filter((key) => key.data.email === email.value);
+    return nameResponse.length || emailResponse.length;
+  };
+
+  const isNameOnExcel = await validateNameOnExcelRecord(
+    firstName.value,
+    middleName.value,
+    lastName.value
+  );
+
+  console.log(isNameOnExcel);
+
+  if (isNameOnExcel) {
+    const isNameOrEmailOnDatabase = await validateOnDatabaseRecord(
+      firstName.value,
+      middleName.value,
+      lastName.value
+    );
+
+    if (!isNameOrEmailOnDatabase) {
+      const signUpResponse = await useSignUp(credentials.signUp);
+
+      if (signUpResponse && signUpResponse.code === 201) {
+        isLoading.value = false;
+        unshowModal();
+        router.push({ name: "home" });
+      } else {
+        showErrorMessage(errorMessages[2]);
+      }
+    } else {
+      showErrorMessage(errorMessages[1]);
+    }
+  } else {
+    showErrorMessage(errorMessages[0]);
   }
 };
 
@@ -226,11 +311,24 @@ const signIn = async () => {
   }
 };
 
+const resetCredentials = () => {
+  credentials.signIn.email = null;
+  credentials.signIn.password = null;
+  credentials.signUp.firstName = null;
+  credentials.signUp.middleName = null;
+  credentials.signUp.lastName = null;
+  credentials.signUp.birthday = null;
+  credentials.signUp.email = null;
+  credentials.signUp.password = null;
+};
+
 const showModal = () => {
+  resetCredentials();
   modal.value.showModal();
 };
 
 const unshowModal = () => {
+  resetCredentials();
   modal.value.close();
 };
 </script>

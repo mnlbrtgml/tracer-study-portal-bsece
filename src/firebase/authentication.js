@@ -6,6 +6,7 @@ import {
   signInWithEmailAndPassword,
   signOut
 } from "firebase/auth";
+import { useCreateUser } from "@/firebase/users";
 
 const auth = getAuth(app);
 const status = reactive({
@@ -13,8 +14,13 @@ const status = reactive({
   message: ""
 });
 
+const formatStatus = () => {
+  status.code = 0;
+  status.message = "";
+};
+
 const useHasSignedIn = () => {
-  const userResponse = auth.currentUser;
+  const userResponse = auth.currentUser?.accessToken;
   const localStorageResponse = localStorage.getItem("accessToken");
 
   if (userResponse) {
@@ -28,11 +34,24 @@ const useHasSignedIn = () => {
   }
 };
 
-const useSignUp = async (email, password) => {
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+const useSignUp = async (form) => {
+  formatStatus();
 
-    if (userCredential) {
+  try {
+    const signUpResponse = await createUserWithEmailAndPassword(auth, form.email, form.password);
+
+    if (signUpResponse) {
+      const user = {
+        id: signUpResponse.user.uid,
+        firstName: form.firstName,
+        middleName: form.middleName,
+        lastName: form.lastName,
+        birthday: form.birthday,
+        email: form.email
+      };
+
+      await useCreateUser(user);
+
       status.code = 201;
       status.message = "User created successfully";
     } else {
@@ -48,44 +67,34 @@ const useSignUp = async (email, password) => {
 };
 
 const useSignIn = async (email, password) => {
+  formatStatus();
+
   try {
-    const signOutResponse = await useSignOut();
+    const signInResponse = await signInWithEmailAndPassword(auth, email, password);
 
-    if (signOutResponse.code === 200) {
-      const signInResponse = await signInWithEmailAndPassword(auth, email, password);
+    if (signInResponse && signInResponse.user) {
+      localStorage.setItem("accessToken", signInResponse.user.accessToken);
+      localStorage.setItem("accessId", signInResponse.user.uid);
 
-      if (signInResponse && signInResponse.user) {
-        localStorage.setItem("accessToken", signInResponse.user.accessToken);
-
-        status.code = 200;
-        status.message = "User signed in successfully";
-      } else {
-        status.code = 404;
-        status.message = "User not found";
-      }
+      status.code = 200;
+      status.message = "User signed in successfully";
+    } else {
+      status.code = 404;
+      status.message = "User not found";
     }
 
     return status;
   } catch (error) {
-    if (error.code === "auth/invalid-login-credentials") {
-      status.code = 404;
-      status.message = "User not found";
-    } else {
-      console.error(error.code);
-      console.error(error.message);
-    }
+    status.code = 404;
+    status.message = "User not found";
   }
 };
 
-const useSignOut = async () => {
+const useSignOut = () => {
+  formatStatus();
+
   try {
-    await signOut(auth);
-
-    status.code = 200;
-    status.message = "User signed out successfully";
-    localStorage.removeItem("accessToken");
-
-    return status;
+    signOut(auth).then(() => localStorage.clear());
   } catch (error) {
     console.error(error.code);
     console.error(error.message);

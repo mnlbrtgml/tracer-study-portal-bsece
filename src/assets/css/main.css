@@ -19,4 +19,20 @@
   :is(section) {
     @apply max-w-screen-2xl mx-auto p-2 md:p-4 lg:p-8;
   }
+
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-blue-600 rounded-lg;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-blue-700;
+  }
 }

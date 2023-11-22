@@ -1,11 +1,18 @@
 <template>
   <section>
-    <div class="container mx-auto p-2 md:p-4 lg:p-8">
-      <div></div>
-    </div>
+    <Suspense>
+      <template #default>
+        <GraduatesSection />
+      </template>
+
+      <template #fallback>
+        <TheLoading />
+      </template>
+    </Suspense>
   </section>
 </template>
 
 <script setup>
-
+import GraduatesSection from "@/views/graduates/partials/GraduatesSection.vue";
+import TheLoading from "@/components/TheLoading.vue";
 </script>
