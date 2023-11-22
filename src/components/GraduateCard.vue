@@ -8,7 +8,7 @@
         v-else
         :src="props.src"
         alt="Alum Image"
-        class="text-gray-400 w-full aspect-square rounded-lg text-xs italic"
+        class="text-gray-400 w-full aspect-square rounded-lg text-xs italic object-cover object-center"
       />
     </div>
 
