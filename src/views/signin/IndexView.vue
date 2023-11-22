@@ -276,8 +276,6 @@ const signUp = async () => {
     lastName.value
   );
 
-  console.log(isNameOnExcel);
-
   if (isNameOnExcel) {
     const isNameOrEmailOnDatabase = await validateOnDatabaseRecord(
       firstName.value,

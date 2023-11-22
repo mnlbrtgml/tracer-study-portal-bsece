@@ -28,7 +28,7 @@
               class="bg-gray-200 text-gray-400 w-full aspect-square rounded-lg text-xs italic object-cover object-center"
             />
 
-            <PrimaryButton>Select new photo</PrimaryButton>
+            <PrimaryButton @click="showModal(`image`)">Select new photo</PrimaryButton>
           </div>
 
           <div class="flex-1 grid gap-2.5">
@@ -72,22 +72,31 @@
     </div>
   </section>
 
-  <dialog
-    ref="modal"
-    class="bg-transparent container max-w-3xl h-full max-h-[calc(100vh-2rem)] p-4 overflow-hidden md:h-max"
-  >
-    <div
-      class="border-gray-300 bg-gray-100 text-gray-700 h-full p-4 border rounded-lg grid gap-4 overflow-y-auto"
-    ></div>
+  <dialog ref="modal" class="bg-transparent container max-w-3xl">
+    <div class="border-gray-300 bg-gray-100 text-gray-700 h-full p-4 border rounded-lg grid gap-4">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <p>{{ modalProperties.title }}</p>
+          <p>{{ modalProperties.subtitle }}</p>
+        </div>
+
+        <IconedButton @click="unshowModal">
+          <CloseIcon />
+        </IconedButton>
+      </div>
+    </div>
   </dialog>
 </template>
 
 <script setup>
 import { ref, reactive } from "vue";
-import { useGetProfile } from "@/firebase/profile";
+import { useGetProfile, useUpdateImage } from "@/firebase/profile";
 import { useImage } from "@vueuse/core";
+import { useFileDialog } from "@vueuse/core";
 
 import PrimaryButton from "@/components/PrimaryButton.vue";
+import IconedButton from "@/components/IconedButton.vue";
+import CloseIcon from "@/assets/icons/CloseIcon.vue";
 
 const getProfileResponse = await useGetProfile();
 const getProfileResult = getProfileResponse[0].data;
@@ -95,6 +104,31 @@ const { isLoading } = useImage({ src: getProfileResult.image });
 const modal = ref(null);
 const modalProperties = reactive({
   title: null,
-  content: null
+  subtitle: null
+});
+
+const { files, open, reset, onChange } = useFileDialog({
+  accept: "image/*"
+});
+
+const showModal = (target) => {
+  reset();
+
+  switch (target) {
+    case "image":
+      modalProperties.title = "Change Image";
+      modalProperties.subtitle = "Select new photo";
+      break;
+  }
+
+  modal.value.show();
+};
+
+const unshowModal = () => {
+  modal.value.close();
+};
+
+onChange((files) => {
+  /** do something with files */
 });
 </script>
