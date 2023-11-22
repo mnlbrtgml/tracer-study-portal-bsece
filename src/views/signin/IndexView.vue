@@ -143,6 +143,8 @@
       </form>
     </div>
   </dialog>
+
+  <TheLoading v-if="isLoading" />
 </template>
 
 <script setup>
@@ -332,9 +334,3 @@ const unshowModal = () => {
   modal.value.close();
 };
 </script>
-
-
- Sta.Ana Punzalan 
-Kenneth Reyes Cabangal 
-Joelourd Rarela Santos 
-Angelica Conrado Syquio

@@ -34,7 +34,9 @@
           </li>
         </ul>
 
-        <PrimaryButton @click="button.function"> {{ button.text }} </PrimaryButton>
+        <PrimaryButton v-if="hasSignedIn" @click="signOut"> Sign out </PrimaryButton>
+
+        <PrimaryButton v-else @click="navigateToSignInView"> Sign in </PrimaryButton>
       </div>
     </nav>
   </header>
@@ -68,7 +70,9 @@
         </li>
       </ul>
 
-      <PrimaryButton @click="button.function"> {{ button.text }} </PrimaryButton>
+      <PrimaryButton v-if="hasSignedIn" @click="signOut"> Sign out </PrimaryButton>
+
+      <PrimaryButton v-else @click="navigateToSignInView"> Sign in </PrimaryButton>
     </nav>
   </aside>
 
@@ -142,7 +146,7 @@ const button = reactive({
 
 const toggleSidebar = () => (isSidebarVisible.value = !isSidebarVisible.value);
 const scrollToTop = () => window.scrollTo(0, 0);
-const navigateToSignInView = () => router.push({ name: "signin" });
+const navigateToSignInView = async () => await router.push({ name: "signin" });
 const signOut = () => {
   isLoading.value = true;
 
