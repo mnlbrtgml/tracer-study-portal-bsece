@@ -80,7 +80,7 @@ const filterGraduates = () => {
     });
   } else {
     users.value = getUsers.filter((user) => {
-      return filterByYear.value === "all" || user.data.yearGraduated === Number(filterByYear.value);
+      return filterByYear.value === "all" || user.data.yearGraduated === filterByYear.value;
     });
   }
 
@@ -92,7 +92,7 @@ const filterGraduates = () => {
       : 0
   );
 
-  // users.value = Object.entries(users.value[0].data).every((key) => key[1]);
+  // users.value = Object.entries(users.value[0].data).every((key) => key[0]);
 };
 
 filterGraduates();
