@@ -91,6 +91,8 @@ const filterGraduates = () => {
       ? -1
       : 0
   );
+
+  users.value = Object.entries(users.value[0].data).every((key) => key[1]);
 };
 
 filterGraduates();
