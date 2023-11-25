@@ -73,26 +73,28 @@ const formatMiddleName = (middleName) => {
 };
 
 const filterGraduates = () => {
+  const filteredUsers = getUsers.filter((key) =>
+    Object.values(key.data).every((key) => key !== "")
+  );
+
   if (filterByName.value) {
-    users.value = getUsers.filter((user) => {
+    users.value = filteredUsers.filter((user) => {
       const name = `${user.data.firstName} ${user.data.middleName} ${user.data.lastName}`;
       return name.toLowerCase().includes(filterByName.value.toLowerCase());
     });
   } else {
-    users.value = getUsers.filter((user) => {
+    users.value = filteredUsers.filter((user) => {
       return filterByYear.value === "all" || user.data.yearGraduated === filterByYear.value;
     });
   }
 
   users.value.sort((keyA, keyB) =>
-    keyA.data.yearGraduated > keyB.data.yearGraduated
+    Number(keyA.data.yearGraduated) > Number(keyB.data.yearGraduated)
       ? 1
-      : keyA.data.yearGraduated < keyB.data.yearGraduated
+      : Number(keyA.data.yearGraduated) < Number(keyB.data.yearGraduated)
       ? -1
       : 0
   );
-
-  // users.value = Object.entries(users.value[0].data).every((key) => key[0]);
 };
 
 filterGraduates();

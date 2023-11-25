@@ -72,8 +72,13 @@
     </div>
   </section>
 
-  <dialog ref="modal" class="bg-transparent container max-w-3xl">
-    <div class="border-gray-300 bg-gray-100 text-gray-700 h-full p-4 border rounded-lg grid gap-4">
+  <dialog
+    ref="modal"
+    class="bg-transparent container max-w-3xl h-full max-h-[calc(100vh-2rem)] p-4 overflow-hidden md:h-max"
+  >
+    <form
+      class="border-gray-300 bg-gray-100 text-gray-700 h-full p-4 border rounded-lg grid gap-4 overflow-y-auto"
+    >
       <div class="flex items-start justify-between gap-4">
         <div>
           <p>{{ modalProperties.title }}</p>
@@ -84,7 +89,16 @@
           <CloseIcon />
         </IconedButton>
       </div>
-    </div>
+
+      <div>
+        <img src="" alt="" class="bg-gray-200" />
+
+        <div class="flex justify-end">
+          <NeutralButton>Cancel</NeutralButton>
+          <PrimaryButton type="submit">Save</PrimaryButton>
+        </div>
+      </div>
+    </form>
   </dialog>
 </template>
 
@@ -95,6 +109,7 @@ import { useImage } from "@vueuse/core";
 import { useFileDialog } from "@vueuse/core";
 
 import PrimaryButton from "@/components/PrimaryButton.vue";
+import NeutralButton from "@/components/NeutralButton.vue";
 import IconedButton from "@/components/IconedButton.vue";
 import CloseIcon from "@/assets/icons/CloseIcon.vue";
 
@@ -121,7 +136,7 @@ const showModal = (target) => {
       break;
   }
 
-  modal.value.show();
+  modal.value.showModal();
 };
 
 const unshowModal = () => {
