@@ -91,7 +91,7 @@ import IconedButton from "@/components/IconedButton.vue";
 import MenuIcon from "@/assets/icons/MenuIcon.vue";
 import CloseIcon from "@/assets/icons/CloseIcon.vue";
 import HomeIcon from "@/assets/icons/HomeIcon.vue";
-import GalleryIcon from "@/assets/icons/GalleryIcon.vue";
+// import GalleryIcon from "@/assets/icons/GalleryIcon.vue";
 import GraduatesIcon from "@/assets/icons/GraduatesIcon.vue";
 import AboutIcon from "@/assets/icons/AboutIcon.vue";
 import FormIcon from "@/assets/icons/FormIcon.vue";
@@ -104,11 +104,11 @@ const routes = [
     icon: HomeIcon,
     requiresAuthentication: false
   },
-  {
-    name: "gallery",
-    icon: GalleryIcon,
-    requiresAuthentication: true
-  },
+  // {
+  //   name: "gallery",
+  //   icon: GalleryIcon,
+  //   requiresAuthentication: true
+  // },
   {
     name: "graduates",
     icon: GraduatesIcon,
