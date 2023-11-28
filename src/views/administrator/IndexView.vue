@@ -6,21 +6,25 @@
       <div
         class="border-t-blue-600 border-gray-300 bg-gray-100 text-gray-700 w-full p-4 border border-t-4 rounded-lg grid"
       >
-        <div class="text-left font-medium grid grid-cols-12 gap-2">
-          <p class="col-span-2">Name</p>
-          <p class="col-span-2">Competencies Learned</p>
-          <p class="col-span-2">Present Occupation</p>
-          <p class="col-span-2">Employment Status</p>
-          <p class="col-span-2">Name of company</p>
-          <p class="col-span-2">Reasons for taking BSECE</p>
+        <div
+          class="border-gray-300 border-b pb-4 mb-4 text-center font-bold grid grid-cols-[repeat(13,_minmax(0,_1fr))] gap-2"
+        >
+          <p class="col-span-2 grid place-items-center">Name</p>
+          <p class="col-span-1 grid place-items-center">Year Graduated</p>
+          <p class="col-span-2 grid place-items-center">Competencies Learned</p>
+          <p class="col-span-2 grid place-items-center">Present Occupation</p>
+          <p class="col-span-2 grid place-items-center">Employment Status</p>
+          <p class="col-span-2 grid place-items-center">Name of company</p>
+          <p class="col-span-2 grid place-items-center">Reasons for taking BSECE</p>
         </div>
 
         <div
           v-for="(item, index) in forms"
           :key="index"
-          class="px-4 py-2 text-left text-xs grid grid-cols-12 gap-2"
+          class="px-4 py-2 text-left text-xs grid grid-cols-[repeat(13,_minmax(0,_1fr))] gap-2"
         >
           <p class="col-span-2 truncate">{{ item.name }}</p>
+          <p class="col-span-1">{{ item.yearGraduated }}</p>
           <p class="col-span-2 truncate">{{ item.competencies }}</p>
           <p class="col-span-2 truncate">{{ item.presentOccupation }}</p>
           <p class="col-span-2 truncate">{{ item.employmentStatus }}</p>
@@ -70,8 +74,8 @@ onMounted(async () => {
     reasonsForTaking: key.data.educationalBackground.reasonsForPursuing
   }));
 
-  forms.value = readFormsResult.filter((key) => {
-    return readUsersResult.map((key) => key.id).includes(key.id);
-  });
+  forms.value = readFormsResult.filter((key) =>
+    readUsersResult.map((key) => key.id).includes(key.id)
+  );
 });
 </script>
