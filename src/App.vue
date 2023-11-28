@@ -13,6 +13,6 @@ import TheNavbar from "@/components/TheNavbar.vue";
 
 const route = useRoute();
 const isNavbarVisible = computed(() =>
-  route.name === "error" || route.name === "signin" ? false : true
+  route.name === "error" || route.name === "signin" || route.name === "administrator" ? false : true
 );
 </script>

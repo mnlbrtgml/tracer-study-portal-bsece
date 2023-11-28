@@ -80,10 +80,12 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted } from "vue";
+import { ref, reactive, computed } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import { onClickOutside } from "@vueuse/core";
-import { useHasSignedIn, useSignOut } from "@/firebase/authentication";
+import { useSignOut } from "@/firebase/authentication";
+import { useAuthentication } from "@/firebase/configuration";
+import { onAuthStateChanged } from "firebase/auth";
 
 import TheLoading from "@/components/TheLoading.vue";
 import PrimaryButton from "@/components/PrimaryButton.vue";
@@ -162,15 +164,13 @@ const signOut = () => {
 
 onClickOutside(sidebar, (event) => event.target.tagName === "ASIDE" && toggleSidebar());
 
-onMounted(() => {
-  const hasSignedInResponse = useHasSignedIn();
-  hasSignedIn.value = hasSignedInResponse;
+onAuthStateChanged(useAuthentication, (user) => {
+  const isAuthenticated = user ? true : false;
+  hasSignedIn.value = isAuthenticated;
 
-  if (hasSignedInResponse) {
+  if (isAuthenticated) {
     button.text = "Sign out";
     button.function = signOut;
-
-    router.push({ name: "signin" });
   } else {
     button.text = "Sign in";
     button.function = navigateToSignInView;

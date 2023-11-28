@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { useHasSignedIn } from "@/firebase/authentication";
+import { useAuthentication } from "@/firebase/configuration";
+// import { useReadProfile } from "@/firebase/profile";
+import { onAuthStateChanged } from "firebase/auth";
 
 import HomeView from "@/views/home/IndexView.vue";
 import GalleryView from "@/views/gallery/IndexView.vue";
@@ -46,6 +48,12 @@ const router = createRouter({
       component: () => import("@/views/profile/IndexView.vue")
     },
     {
+      path: "/administrator",
+      name: "administrator",
+      meta: { requiresAuthentication: false },
+      component: () => import("@/views/administrator/IndexView.vue")
+    },
+    {
       path: "/signin",
       name: "signin",
       meta: { requiresAuthentication: false },
@@ -61,23 +69,24 @@ const router = createRouter({
 });
 
 router.beforeEach((to, _, next) => {
-  const account = useHasSignedIn();
-  const meta = to.meta.requiresAuthentication;
-  const name = to.name;
+  onAuthStateChanged(useAuthentication, (user) => {
+    // const readProfileResponse = await useReadProfile();
+    // const readProfileResult = readProfileResponse.data;
+    // const isAdministrator = readProfileResult?.type === "administrator" ? true : false;
+    const isAuthenticated = user ? true : false;
+    const requiresAuthentication = to.meta.requiresAuthentication;
+    const name = to.name;
 
-  if (name === "signin") {
-    if (account) {
+    if (requiresAuthentication && isAuthenticated) {
+      next();
+    } else if (requiresAuthentication && !isAuthenticated) {
+      next({ name: "signin" });
+    } else if (!requiresAuthentication && isAuthenticated && name === "sigin") {
       next({ name: "home" });
     } else {
       next();
     }
-  } else {
-    if (meta && !account) {
-      next({ name: "signin" });
-    } else {
-      next();
-    }
-  }
+  });
 });
 
 router.afterEach((to) => {

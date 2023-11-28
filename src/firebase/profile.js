@@ -1,53 +1,54 @@
-import { app, database } from "@/firebase/configuration";
-import { getAuth, updatePassword } from "firebase/auth";
-import { useGetUsers } from "@/firebase/users";
-import { doc, updateDoc } from "firebase/firestore";
+import { useDatabase, useAuthentication } from "@/firebase/configuration";
+import { updatePassword } from "firebase/auth";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-const auth = getAuth(app);
-const userId = auth.currentUser.uid;
+const uid = useAuthentication.currentUser.uid;
+const status = {
+  success: { code: 200, message: "succes" },
+  error: { code: 400, message: "error" }
+};
 
-const useGetProfile = async () => {
+const useReadProfile = async () => {
   try {
-    const getUsersResponse = await useGetUsers();
-    const profile = getUsersResponse.filter((key) => key.id === userId);
-
-    return profile;
+    const response = await getDoc(doc(useDatabase, "users", uid));
+    const result = response.data();
+    return { ...status.success, id: response.id, data: result };
   } catch (error) {
-    console.error(error.code);
-    console.error(error.message);
+    console.log(`Error reading profile!\nCODE: [${error.code}]\nMESSAGE: [${error.message}]`);
+    return status.error;
   }
 };
 
 const useUpdateImage = async (image) => {
   try {
     const storage = getStorage();
-    const storageRef = ref(storage, `users/${userId}`);
+    const storageRef = ref(storage, `users/${uid}`);
     const uploadResponse = await uploadBytes(storageRef, image);
 
     if (uploadResponse) {
       const downloadUrlResponse = await getDownloadURL(uploadResponse.ref);
 
       if (downloadUrlResponse) {
-        await updateDoc(doc(database, "users", userId), {
+        await updateDoc(doc(useDatabase, "users", uid), {
           image: downloadUrlResponse
         });
-
-        return {
-          code: 201,
-          message: "Successfully updated image!"
-        };
+        return status.success;
+      } else {
+        return status.error;
       }
+    } else {
+      return status.error;
     }
   } catch (error) {
-    console.error(error.code);
-    console.error(error.message);
+    console.log(`Error updating image!\nCODE: [${error.code}]\nMESSAGE: [${error.message}]`);
+    return status.error;
   }
 };
 
 const useUpdatePersonalInformation = async (form) => {
   try {
-    await updateDoc(doc(database, "users", userId), {
+    await updateDoc(doc(useDatabase, "users", uid), {
       firstName: form.firstName,
       middleName: form.middleName,
       lastName: form.lastName,
@@ -55,29 +56,23 @@ const useUpdatePersonalInformation = async (form) => {
       fieldOfWork: form.fieldOfWork,
       yearGraduated: form.yearGraduated
     });
-
-    return {
-      code: 201,
-      message: "Successfully updated personal information!"
-    };
+    return status.success;
   } catch (error) {
-    console.error(error.code);
-    console.error(error.message);
+    console.log(
+      `Error updating personal information!\nCODE: [${error.code}]\nMESSAGE: [${error.message}]`
+    );
+    return status.error;
   }
 };
 
 const useUpdatePassword = async (password) => {
   try {
-    await updatePassword(auth.currentUser, password);
-
-    return {
-      code: 201,
-      message: "Successfully updated password!"
-    };
+    await updatePassword(useAuthentication.currentUser, password);
+    return status.success;
   } catch (error) {
-    console.error(error.code);
-    console.error(error.message);
+    console.log(`Error updating password!\nCODE: [${error.code}]\nMESSAGE: [${error.message}]`);
+    return status.error;
   }
 };
 
-export { useGetProfile, useUpdateImage, useUpdatePersonalInformation, useUpdatePassword };
+export { useReadProfile, useUpdateImage, useUpdatePersonalInformation, useUpdatePassword };

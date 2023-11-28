@@ -194,7 +194,7 @@
 <script setup>
 import { ref, reactive } from "vue";
 import {
-  useGetProfile,
+  useReadProfile,
   useUpdateImage,
   useUpdatePersonalInformation,
   useUpdatePassword
@@ -212,8 +212,8 @@ import InputPassword from "@/components/InputPassword.vue";
 import CloseIcon from "@/assets/icons/CloseIcon.vue";
 
 const router = useRouter();
-const getProfileResponse = await useGetProfile();
-const getProfileResult = ref(getProfileResponse[0].data);
+const getProfileResponse = await useReadProfile();
+const getProfileResult = ref(getProfileResponse.data);
 const isLoading = ref(false);
 const image = reactive({
   preview: null,
@@ -296,7 +296,7 @@ const submitForm = async () => {
     isLoading.value = false;
 
     alert(
-      updateImageResult === 201 ? "Successfully updated image!" : "Unsuccessfully updated image!"
+      updateImageResult === 200 ? "Successfully updated image!" : "Unsuccessfully updated image!"
     );
 
     unshowModal();
@@ -307,7 +307,7 @@ const submitForm = async () => {
     isLoading.value = false;
 
     alert(
-      updatePersonalInformationResult === 201
+      updatePersonalInformationResult === 200
         ? "Successfully updated personal information!"
         : "Unsuccessfully updated personal information!"
     );
@@ -321,7 +321,7 @@ const submitForm = async () => {
       isLoading.value = false;
 
       alert(
-        updatePasswordResult === 201
+        updatePasswordResult === 200
           ? "Successfully updated password!"
           : "Unsuccessfully updated password!"
       );
@@ -341,8 +341,8 @@ const submitForm = async () => {
   resetImage();
   resetPassword();
 
-  const getProfileResponse = await useGetProfile();
-  getProfileResult.value = getProfileResponse[0].data;
+  const getProfileResponse = await useReadProfile();
+  getProfileResult.value = getProfileResponse.data;
 };
 
 onChange((files) => {

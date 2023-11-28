@@ -1,44 +1,19 @@
-import { reactive } from "vue";
-import { app } from "@/firebase/configuration";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut
-} from "firebase/auth";
+import { useAuthentication } from "@/firebase/configuration";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { useCreateUser } from "@/firebase/users";
 
-const auth = getAuth(app);
-const status = reactive({
-  code: 0,
-  message: ""
-});
-
-const formatStatus = () => {
-  status.code = 0;
-  status.message = "";
-};
-
-const useHasSignedIn = () => {
-  const userResponse = auth.currentUser?.accessToken;
-  const localStorageResponse = localStorage.getItem("accessToken");
-
-  if (userResponse) {
-    return true;
-  } else {
-    if (localStorageResponse) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+const status = {
+  success: { code: 200, message: "succes" },
+  error: { code: 400, message: "error" }
 };
 
 const useSignUp = async (form) => {
-  formatStatus();
-
   try {
-    const signUpResponse = await createUserWithEmailAndPassword(auth, form.email, form.password);
+    const signUpResponse = await createUserWithEmailAndPassword(
+      useAuthentication,
+      form.email,
+      form.password
+    );
 
     if (signUpResponse) {
       const user = {
@@ -51,54 +26,42 @@ const useSignUp = async (form) => {
       };
 
       await useCreateUser(user);
-
-      status.code = 201;
-      status.message = "User created successfully";
+      return status.success;
     } else {
-      status.code = 400;
-      status.message = "User creation failed";
+      return status.error;
     }
-
-    return status;
   } catch (error) {
-    console.error(error.code);
-    console.error(error.message);
+    console.log(`Error signing up!\nCODE: [${error.code}]\nMESSAGE: [${error.message}]`);
+    return status.error;
   }
 };
 
 const useSignIn = async (email, password) => {
-  formatStatus();
-
   try {
-    const signInResponse = await signInWithEmailAndPassword(auth, email, password);
+    const signInResponse = await signInWithEmailAndPassword(useAuthentication, email, password);
 
     if (signInResponse && signInResponse.user) {
       localStorage.setItem("accessToken", signInResponse.user.accessToken);
       localStorage.setItem("accessId", signInResponse.user.uid);
 
-      status.code = 200;
-      status.message = "User signed in successfully";
+      return status.success;
     } else {
-      status.code = 404;
-      status.message = "User not found";
+      return status.error;
     }
-
-    return status;
   } catch (error) {
-    status.code = 404;
-    status.message = "User not found";
+    console.log(`Error signing in!\nCODE: [${error.code}]\nMESSAGE: [${error.message}]`);
+    return status.error;
   }
 };
 
 const useSignOut = () => {
-  formatStatus();
-
   try {
-    signOut(auth).then(() => localStorage.clear());
+    signOut(useAuthentication);
+    return status.success;
   } catch (error) {
-    console.error(error.code);
-    console.error(error.message);
+    console.log(`Error signing out!\nCODE: [${error.code}]\nMESSAGE: [${error.message}]`);
+    return status.error;
   }
 };
 
-export { useSignUp, useSignIn, useSignOut, useHasSignedIn };
+export { useSignUp, useSignIn, useSignOut };

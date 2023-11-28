@@ -219,19 +219,19 @@
 
 <script setup>
 import { ref, reactive } from "vue";
-import { useGetForms, useCreateForm } from "@/firebase/forms";
-import { useGetProfile } from "@/firebase/profile";
+import { useReadForms, useCreateForm } from "@/firebase/forms";
+import { useReadProfile } from "@/firebase/profile";
 
 import InputNumber from "@/components/InputNumber.vue";
 import InputText from "@/components/InputText.vue";
 import InputLongText from "@/components/InputLongText.vue";
 import PrimaryButton from "@/components/PrimaryButton.vue";
 
-const getFormsResponse = await useGetForms();
-const getFormsResult = getFormsResponse.map((key) => key.id);
-const getProfileResponse = await useGetProfile();
-const getProfileResult = getProfileResponse.map((key) => key.id);
-const isEligible = ref(!getFormsResult.includes(getProfileResult[0]));
+const getFormsResponse = await useReadForms();
+const getFormsResult = getFormsResponse.data.map((key) => key.id);
+const getProfileResponse = await useReadProfile();
+const getProfileResult = getProfileResponse.id;
+const isEligible = ref(!getFormsResult.includes(getProfileResult));
 const isLoading = ref(false);
 
 const form = reactive({
@@ -297,7 +297,7 @@ const submitForm = async () => {
     const createFormResponse = await useCreateForm(form);
     const createFormResult = createFormResponse.code;
 
-    if (createFormResult === 201) {
+    if (createFormResult === 200) {
       isLoading.value = false;
       isEligible.value = !isEligible.value;
     }

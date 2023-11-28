@@ -48,13 +48,13 @@
 
 <script setup>
 import { ref } from "vue";
-import { useGetUsers } from "@/firebase/users";
+import { useReadUsers } from "@/firebase/users";
 
 import InputText from "@/components/InputText.vue";
 import PrimaryButton from "@/components/PrimaryButton.vue";
 import GraduateCard from "@/components/GraduateCard.vue";
 
-const getUsers = await useGetUsers();
+const getUsersResponse = await useReadUsers();
 const users = ref([]);
 const filterByName = ref(null);
 const filterByYear = ref("all");
@@ -73,7 +73,7 @@ const formatMiddleName = (middleName) => {
 };
 
 const filterGraduates = () => {
-  const filteredUsers = getUsers.filter((key) =>
+  const filteredUsers = getUsersResponse.data.filter((key) =>
     Object.values(key.data).every((key) => key !== "")
   );
 

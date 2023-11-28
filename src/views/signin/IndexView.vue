@@ -158,7 +158,7 @@ import { ref, reactive, toRefs } from "vue";
 import { useRouter } from "vue-router";
 import { read, utils } from "xlsx";
 import { useSignIn, useSignUp } from "@/firebase/authentication";
-import { useGetUsers } from "@/firebase/users";
+import { useReadUsers } from "@/firebase/users";
 
 import TheLoading from "@/components/TheLoading.vue";
 import InputEmail from "@/components/InputEmail.vue";
@@ -260,7 +260,7 @@ const signUp = async () => {
   };
 
   const validateOnDatabaseRecord = async (firstName, middleName, lastName) => {
-    const getUsersResponse = await useGetUsers();
+    const getUsersResponse = await useReadUsers();
     const nameResponse = getUsersResponse.filter((key) => {
       key.data.firstName === firstName &&
         key.data.middleName === middleName &&
@@ -285,8 +285,9 @@ const signUp = async () => {
 
     if (!isNameOrEmailOnDatabase) {
       const signUpResponse = await useSignUp(credentials.signUp);
+      const signUpResult = signUpResponse.code;
 
-      if (signUpResponse && signUpResponse.code === 201) {
+      if (signUpResponse && signUpResult === 200) {
         isLoading.value = false;
         unshowModal();
         router.push({ name: "home" });
@@ -307,8 +308,9 @@ const signIn = async () => {
 
   const { email, password } = toRefs(credentials.signIn);
   const signInResponse = await useSignIn(email.value, password.value);
+  const signInResult = signInResponse.code;
 
-  if (signInResponse && signInResponse.code === 200) {
+  if (signInResponse && signInResult === 200) {
     isLoading.value = false;
     router.push({ name: "home" });
   } else {

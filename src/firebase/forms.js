@@ -1,20 +1,28 @@
-import { database } from "@/firebase/configuration";
+import { useDatabase } from "@/firebase/configuration";
 import { collection, getDocs, doc, setDoc } from "firebase/firestore";
-import { useGetProfile } from "@/firebase/profile";
+import { useReadProfile } from "@/firebase/profile";
 
-const useGetForms = async () => {
-  const response = await getDocs(collection(database, "forms"));
-  const result = [];
+const status = {
+  success: { code: 200, message: "succes" },
+  error: { code: 400, message: "error" }
+};
 
-  response.forEach((key) => result.push({ id: key.id, data: key.data() }));
-
-  return result;
+const useReadForms = async () => {
+  try {
+    const response = await getDocs(collection(useDatabase, "forms"));
+    const result = [];
+    response.forEach((key) => result.push({ id: key.id, data: key.data() }));
+    return { ...status.success, data: result };
+  } catch (error) {
+    console.log(`Error reading forms!\nCODE: [${error.code}]\nMESSAGE: [${error.message}]`);
+    return status.error;
+  }
 };
 
 const useCreateForm = async (form) => {
   try {
-    const getProfileResponse = await useGetProfile();
-    const getProfileResult = getProfileResponse[0].id;
+    const getProfileResponse = await useReadProfile();
+    const getProfileResult = getProfileResponse.id;
     const { 0: generalInformation, 1: educationalBackground, 2: employmentInformation } = form;
     const data = {
       generalInformation: {
@@ -50,16 +58,12 @@ const useCreateForm = async (form) => {
       }
     };
 
-    await setDoc(doc(database, "forms", getProfileResult), data);
-
-    return {
-      code: 201,
-      message: "Form submitted successfully"
-    };
+    await setDoc(doc(useDatabase, "forms", getProfileResult), data);
+    return status.success;
   } catch (error) {
-    console.error(error.code);
-    console.error(error.message);
+    console.log(`Error creating form!\nCODE: [${error.code}]\nMESSAGE: [${error.message}]`);
+    return status.error;
   }
 };
 
-export { useGetForms, useCreateForm };
+export { useReadForms, useCreateForm };
