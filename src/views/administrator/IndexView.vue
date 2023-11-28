@@ -74,8 +74,14 @@ onMounted(async () => {
     reasonsForTaking: key.data.educationalBackground.reasonsForPursuing
   }));
 
-  forms.value = readFormsResult.filter((key) =>
-    readUsersResult.map((key) => key.id).includes(key.id)
-  );
+  readUsersResult.forEach((user) => {
+    if (readFormsResult.some((form) => form.id === user.id)) {
+      const userForm = {
+        ...user,
+        ...readFormsResult.find((form) => form.id === user.id)
+      };
+      forms.value.push(userForm);
+    }
+  });
 });
 </script>
