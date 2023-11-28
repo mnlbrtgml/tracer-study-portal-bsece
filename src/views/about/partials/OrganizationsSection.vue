@@ -36,7 +36,7 @@
       <div class="grid gap-2 lg:grid-cols-2">
         <div class="border-gray-300 bg-gray-100 text-gray-700 border rounded-lg">
           <img
-            src="https://scontent.fmnl3-1.fna.fbcdn.net/v/t39.30808-6/323632997_839093453988229_6958100991051486861_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeFqBEghX_FibOJBx5_jpNvnZtoFGH1wnjFm2gUYfXCeMZFvx71mA65n2-1OtYzFhXjE9ZmtJIDbHcYNhQe2Fc_l&_nc_ohc=W2FL1f2i72IAX9eMMWA&_nc_zt=23&_nc_ht=scontent.fmnl3-1.fna&oh=00_AfA0KFNE411GZJZ5iFyX_9pc1H_JRukKz-zq3iraJDQwAw&oe=655D1BC6"
+            src="https://scontent.fmnl33-3.fna.fbcdn.net/v/t39.30808-6/323632997_839093453988229_6958100991051486861_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeFqBEghX_FibOJBx5_jpNvnZtoFGH1wnjFm2gUYfXCeMZFvx71mA65n2-1OtYzFhXjE9ZmtJIDbHcYNhQe2Fc_l&_nc_ohc=ZATh7ND9qNIAX95WU29&_nc_ht=scontent.fmnl33-3.fna&oh=00_AfDW54z1_fuAJnlolYLuxAWetHON1pTgW6jCUSi8yzdExg&oe=656AF386"
             alt=""
             class="w-full aspect-video object-cover object-center rounded-t-lg"
           />
@@ -60,7 +60,7 @@
 
         <div class="border-gray-300 bg-gray-100 text-gray-700 border rounded-lg">
           <img
-            src="https://scontent.fmnl3-4.fna.fbcdn.net/v/t39.30808-6/294677372_448805567258147_191905583489302703_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeEimkHjZDJ9CXWdfBc0fqXEBZfBNRGYuWwFl8E1EZi5bL_rHx8R0-xZcgHyi9h__jYupgGzcRxYUJJmn5ZuZJM9&_nc_ohc=29BRWgCF46UAX9c_Rgr&_nc_zt=23&_nc_ht=scontent.fmnl3-4.fna&oh=00_AfAkJPCYAK4UOpHOOY4VWKjQNE0SlQFfKNlsI96i7bM3rg&oe=655D9140"
+            src="https://scontent.fmnl33-2.fna.fbcdn.net/v/t39.30808-6/294677372_448805567258147_191905583489302703_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeEimkHjZDJ9CXWdfBc0fqXEBZfBNRGYuWwFl8E1EZi5bL_rHx8R0-xZcgHyi9h__jYupgGzcRxYUJJmn5ZuZJM9&_nc_ohc=LideA3iFeQsAX-WSGgk&_nc_ht=scontent.fmnl33-2.fna&oh=00_AfBmqZIyh_PInUnntoH8ndMKSZdrh9dwERN1dKFCIe1ZZA&oe=656B6900"
             alt=""
             class="w-full aspect-video object-cover object-center rounded-t-lg"
           />
