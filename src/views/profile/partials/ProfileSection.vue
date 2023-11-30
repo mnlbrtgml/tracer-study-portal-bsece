@@ -107,7 +107,7 @@
       </div>
 
       <div
-        v-if="modalProperties.title === `Change Personal Information`"
+        v-else-if="modalProperties.title === `Change Personal Information`"
         class="flex flex-col gap-4"
       >
         <div class="px-2 grid gap-2.5 lg:px-4">
