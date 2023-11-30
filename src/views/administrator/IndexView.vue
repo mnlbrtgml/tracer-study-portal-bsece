@@ -3,8 +3,31 @@
     <div
       class="container h-[calc(100dvh-1rem)] mx-auto p-2 md:h-[calc(100dvh-2rem)] md:p-4 lg:h-[calc(100dvh-4rem)] lg:p-8"
     >
+      <div class="grid">
+        <div
+          v-for="(item, index) in forms"
+          :key="index"
+          class="border-t-blue-600 border-gray-300 bg-gray-100 text-gray-700 p-4 border border-t-4 rounded-lg grid"
+        >
+          <p>Name</p>
+          <p class="text-xs truncate">{{ item.name }}</p>
+          <p>Year Graduated</p>
+          <p class="text-xs truncate">{{ item.yearGraduated }}</p>
+          <p>Competencies Learned</p>
+          <p class="text-xs truncate">{{ item.competencies }}</p>
+          <p>Present Occupation</p>
+          <p class="text-xs truncate">{{ item.presentOccupation }}</p>
+          <p>Employment Status</p>
+          <p class="text-xs truncate">{{ item.employmentStatus }}</p>
+          <p>Name of company</p>
+          <p class="text-xs truncate">{{ item.nameOfCompany }}</p>
+          <p>Reasons for taking BSECE</p>
+          <p class="text-xs truncate">{{ item.reasonsForTaking }}</p>
+        </div>
+      </div>
+
       <div
-        class="border-t-blue-600 border-gray-300 bg-gray-100 text-gray-700 w-full p-4 border border-t-4 rounded-lg grid"
+        class="border-t-blue-600 border-gray-300 bg-gray-100 text-gray-700 hidden w-full p-4 border border-t-4 rounded-lg xl:grid"
       >
         <div
           class="border-gray-300 border-b pb-4 mb-4 text-center font-bold grid grid-cols-[repeat(13,_minmax(0,_1fr))] gap-2"

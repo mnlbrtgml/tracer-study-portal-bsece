@@ -261,12 +261,12 @@ const signUp = async () => {
 
   const validateOnDatabaseRecord = async (firstName, middleName, lastName) => {
     const getUsersResponse = await useReadUsers();
-    const nameResponse = getUsersResponse.filter((key) => {
+    const nameResponse = getUsersResponse.data.filter((key) => {
       key.data.firstName === firstName &&
         key.data.middleName === middleName &&
         key.data.lastName === lastName;
     });
-    const emailResponse = getUsersResponse.filter((key) => key.data.email === email.value);
+    const emailResponse = getUsersResponse.data.filter((key) => key.data.email === email.value);
     return nameResponse.length || emailResponse.length;
   };
 
