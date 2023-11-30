@@ -33,21 +33,22 @@
         </div>
       </div>
 
-      <div class="grid gap-2 lg:grid-cols-2">
-        <div class="border-gray-300 bg-gray-100 text-gray-700 border rounded-lg">
+      <div class="grid gap-2">
+        <div
+          class="border-gray-300 border-t-blue-600 bg-gray-100 text-gray-700 border border-t-4 rounded-lg grid md:grid-cols-2"
+        >
           <img
-            src="https://scontent.fmnl33-3.fna.fbcdn.net/v/t39.30808-6/323632997_839093453988229_6958100991051486861_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeFqBEghX_FibOJBx5_jpNvnZtoFGH1wnjFm2gUYfXCeMZFvx71mA65n2-1OtYzFhXjE9ZmtJIDbHcYNhQe2Fc_l&_nc_ohc=ZATh7ND9qNIAX95WU29&_nc_ht=scontent.fmnl33-3.fna&oh=00_AfDW54z1_fuAJnlolYLuxAWetHON1pTgW6jCUSi8yzdExg&oe=656AF386"
-            alt=""
-            class="w-full aspect-video object-cover object-center rounded-t-lg"
+            src="@/assets/images/IecepRizalChapter.jpg"
+            alt="IECEP Rizal Chapter"
+            class="rounded-t-lg object-cover object-center md:h-full md:rounded-l-lg md:rounded-r-none"
           />
 
-          <div class="p-4 space-y-2">
-            <a
-              href="https://web.facebook.com/IECEPRizalChapter"
-              class="text-blue-600 text-lg font-medium"
-              >IECEP Rizal Chapter</a
-            >
-            <p class="indent-8">
+          <div class="p-4 flex flex-col gap-4">
+            <p class="text-blue-600 text-lg font-medium md:text-xl md:font-semibold">
+              IECEP Rizal Chapter
+            </p>
+
+            <p class="text-sm indent-8 lg:text-base">
               IECEP-RSC is the accredited organization of Electronics Engineering students of
               University of Rizal System-Morong, University of Rizal System – Antipolo, Siena
               College of Taytay and Pamantasan ng Lungsod ng Pasig, an inter-university
@@ -55,25 +56,42 @@
               with its various activities including student summit, quiz bowl, sports festival,
               leadership trainings programs, student festival, Sumo-bot etc.
             </p>
+
+            <a
+              href="https://web.facebook.com/IECEPRizalChapter"
+              class="bg-blue-600 text-gray-100 w-max mt-8 mx-auto px-4 py-2 rounded-lg md:mx-0"
+            >
+              Visit facebook page
+            </a>
           </div>
         </div>
 
-        <div class="border-gray-300 bg-gray-100 text-gray-700 border rounded-lg">
+        <div
+          class="border-gray-300 border-t-blue-600 bg-gray-100 text-gray-700 border border-t-4 rounded-lg flex flex-col md:flex-row-reverse"
+        >
           <img
-            src="https://scontent.fmnl33-2.fna.fbcdn.net/v/t39.30808-6/294677372_448805567258147_191905583489302703_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeEimkHjZDJ9CXWdfBc0fqXEBZfBNRGYuWwFl8E1EZi5bL_rHx8R0-xZcgHyi9h__jYupgGzcRxYUJJmn5ZuZJM9&_nc_ohc=LideA3iFeQsAX-WSGgk&_nc_ht=scontent.fmnl33-2.fna&oh=00_AfBmqZIyh_PInUnntoH8ndMKSZdrh9dwERN1dKFCIe1ZZA&oe=656B6900"
-            alt=""
-            class="w-full aspect-video object-cover object-center rounded-t-lg"
+            src="@/assets/images/IecepUrsmChapter.jpg"
+            alt="IECEP URSM Chapter"
+            class="rounded-t-lg object-cover object-center md:h-full md:w-1/2 md:rounded-l-none md:rounded-r-lg"
           />
 
-          <div class="p-4 space-y-2">
-            <a href="https://web.facebook.com/iecepursmsc" class="text-blue-600 text-lg font-medium"
-              >IECEP URS-Morong Student Chapter</a
-            >
-            <p class="indent-8">
+          <div class="p-4 flex flex-col gap-4">
+            <p class="text-blue-600 text-lg font-medium md:text-xl md:font-semibold">
+              IECEP URS-Morong Student Chapter
+            </p>
+
+            <p class="text-sm indent-8 lg:text-base">
               IECEP URS-Morong Student Chapter is an organization of Electronics Engineering
               Students that aims to develop a good camaraderie between the members while they
               perform their ideas, skills, and talents in their chose field.
             </p>
+
+            <a
+              href="https://web.facebook.com/iecepursmsc"
+              class="bg-blue-600 text-gray-100 w-max mt-8 mx-auto px-4 py-2 rounded-lg md:mx-0"
+            >
+              Visit facebook page
+            </a>
           </div>
         </div>
       </div>
