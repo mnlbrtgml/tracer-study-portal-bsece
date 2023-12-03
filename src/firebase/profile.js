@@ -3,7 +3,7 @@ import { updatePassword } from "firebase/auth";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-const uid = useAuthentication.currentUser.uid;
+const uid = useAuthentication.currentUser?.uid;
 const status = {
   success: { code: 200, message: "succes" },
   error: { code: 400, message: "error" }

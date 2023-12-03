@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useAuthentication } from "@/firebase/configuration";
-// import { useReadProfile } from "@/firebase/profile";
 import { onAuthStateChanged } from "firebase/auth";
+import { useSignOut } from "@/firebase/authentication";
 
 import HomeView from "@/views/home/IndexView.vue";
 import GalleryView from "@/views/gallery/IndexView.vue";
@@ -70,12 +70,18 @@ const router = createRouter({
 
 router.beforeEach((to, _, next) => {
   onAuthStateChanged(useAuthentication, (user) => {
-    // const readProfileResponse = await useReadProfile();
-    // const readProfileResult = readProfileResponse.data;
-    // const isAdministrator = readProfileResult?.type === "administrator" ? true : false;
     const isAuthenticated = user ? true : false;
     const requiresAuthentication = to.meta.requiresAuthentication;
     const name = to.name;
+
+    const administrator = {
+      uid: "bykhS1WWixTtQoFkfv4pKgaInmg1",
+      email: "administrator@tsp.com"
+    };
+
+    if (isAuthenticated && user.uid === administrator.uid && name !== "administrator") {
+      useSignOut();
+    }
 
     if (requiresAuthentication && isAuthenticated) {
       next();
@@ -90,7 +96,7 @@ router.beforeEach((to, _, next) => {
 });
 
 router.afterEach((to) => {
-  if (to.name !== "signin" && to.name !== "error") {
+  if (to.name !== "signin" && to.name !== "error" && to.name === "administrator") {
     const header = Array.from(document.querySelectorAll("header ul a"));
     const links = header.map((key) => ({
       name: key.innerText.toLowerCase(),
